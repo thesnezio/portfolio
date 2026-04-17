@@ -42,7 +42,6 @@
     width: 100%; padding: 0.9rem; background: var(--accent); color: white;
     border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer;
   }
-  #loginError { color: var(--danger); font-size: 0.85rem; margin-top: 0.5rem; display: none; }
 
   /* Sidebar */
   #sidebar {
@@ -77,77 +76,93 @@
   }
   .content { padding: 2rem; flex: 1; }
 
-  /* Panels */
   .panel { display: none; }
   .panel.active { display: block; }
 
-  /* Cards */
   .card { background: var(--card); border-radius: 12px; border: 1px solid var(--border); padding: 1.5rem; margin-bottom: 1.5rem; }
   .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
 
-  /* Form */
+  /* Form Elements */
   .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
   .form-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
   .form-group.full { grid-column: 1 / -1; }
   label { font-size: 0.8rem; font-weight: 600; color: var(--muted); text-transform: uppercase; }
-  input, textarea, select {
+  input, textarea {
     padding: 0.7rem 0.9rem; border: 1px solid var(--border); border-radius: 8px;
-    font-size: 0.9rem; background: var(--bg); outline: none;
+    font-size: 0.9rem; background: var(--bg); outline: none; transition: border-color 0.2s;
   }
-  
-  /* Image Management */
-  .upload-wrapper { display: flex; gap: 0.5rem; align-items: center; }
-  .upload-wrapper input[type="text"] { flex: 1; }
-  .upload-btn-label { 
-    background: var(--accent-light); color: var(--accent); padding: 0.7rem 1rem; 
-    border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer;
+  input:focus, textarea:focus { border-color: var(--accent); }
+
+  /* Image Box Resizing */
+  .img-preview-box {
+    width: 50px; height: 50px; border-radius: 8px; overflow: hidden;
+    background: #fff; border: 1px solid var(--border); flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
+  }
+  .img-preview-box img { width: 100%; height: 100%; object-fit: cover; }
+
+  .hero-preview-container {
+    display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1.5rem;
+    padding: 1.2rem; background: var(--bg); border-radius: 16px; border: 1px dashed var(--border);
+  }
+  .hero-preview-img {
+    width: 80px; height: 80px; border-radius: 50%; object-fit: cover;
+    border: 3px solid white; box-shadow: 0 4px 12px rgba(0,0,0,0.1); background: #fff;
+  }
+
+  /* List View Items */
+  .item-row {
+    background: var(--bg); border: 1px solid var(--border); border-radius: 12px;
+    padding: 0.8rem 1rem; display: flex; align-items: center; gap: 1.2rem; margin-bottom: 0.6rem;
+    transition: transform 0.2s;
+  }
+  .item-row:hover { transform: translateX(4px); }
+  .item-row-body { flex: 1; overflow: hidden; }
+  .item-row-body strong { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  /* Upload Area */
+  .upload-wrapper { display: flex; gap: 0.6rem; align-items: center; }
+  .upload-btn-label { 
+    background: var(--accent-light); color: var(--accent); padding: 0.7rem 1.2rem; 
+    border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer;
+    white-space: nowrap; transition: 0.2s;
   }
   .upload-btn-label:hover { background: var(--accent); color: white; }
   input[type="file"] { display: none; }
 
-  .hero-preview-container {
-    display: flex; align-items: center; gap: 1.5rem; margin-bottom: 1rem;
-    padding: 1rem; background: var(--bg); border-radius: 12px; border: 1px dashed var(--border);
-  }
-  .hero-preview-img {
-    width: 80px; height: 80px; border-radius: 50%; object-fit: cover;
-    border: 3px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    background: #fff;
-  }
-
-  /* List */
-  .item-row {
-    background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
-    padding: 0.75rem 1rem; display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;
-  }
-  .item-row img { 
-    width: 50px; height: 50px; border-radius: 8px; object-fit: cover; 
-    background: #fff; border: 1px solid var(--border); flex-shrink: 0;
-  }
-  .item-row-body { flex: 1; overflow: hidden; }
-  .item-row-body strong { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+  /* Buttons */
+  .btn { padding: 0.65rem 1.2rem; border-radius: 8px; border: none; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+  .btn-primary { background: var(--accent); color: white; }
+  .btn-success { background: var(--success); color: white; }
+  .btn-danger { background: transparent; color: var(--danger); border: 1px solid var(--danger); }
+  .btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
 
   /* Modal */
   .modal-overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 500;
+    position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 500;
     display: flex; align-items: center; justify-content: center; display: none;
+    backdrop-filter: blur(4px);
   }
   .modal-overlay.open { display: flex; }
-  .modal { background: white; border-radius: 16px; padding: 2rem; width: 600px; max-height: 90vh; overflow-y: auto; }
+  .modal { background: white; border-radius: 20px; padding: 2rem; width: 620px; max-height: 90vh; overflow-y: auto; box-shadow: 0 25px 50px rgba(0,0,0,0.2); }
   
-  .lang-tabs { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
-  .lang-tab { padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; cursor: pointer; border: 1px solid var(--border); transition: all 0.2s; }
+  .modal-img-preview {
+    width: 100px; height: 100px; border-radius: 12px; object-fit: cover;
+    border: 1px solid var(--border); background: var(--bg); margin-bottom: 1rem;
+  }
+
+  .lang-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.2rem; }
+  .lang-tab { padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; cursor: pointer; border: 1px solid var(--border); transition: all 0.2s; color: var(--muted); }
   .lang-tab.active { background: var(--accent); color: white; border-color: var(--accent); }
 
   #toast {
-    position: fixed; bottom: 2rem; right: 2rem; padding: 1rem 1.5rem;
-    border-radius: 10px; font-size: 0.9rem; font-weight: 500; z-index: 9999;
-    transform: translateY(100px); opacity: 0; transition: all 0.3s;
+    position: fixed; bottom: 2rem; right: 2rem; padding: 1rem 1.8rem;
+    border-radius: 12px; font-size: 0.9rem; font-weight: 600; z-index: 9999;
+    transform: translateY(100px); opacity: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
   #toast.show { transform: translateY(0); opacity: 1; }
-  #toast.success { background: var(--success); color: white; }
-  #toast.error { background: var(--danger); color: white; }
+  #toast.success { background: var(--success); color: white; box-shadow: 0 10px 20px rgba(29, 158, 117, 0.2); }
+  #toast.error { background: var(--danger); color: white; box-shadow: 0 10px 20px rgba(226, 75, 74, 0.2); }
 </style>
 </head>
 <body>
@@ -159,7 +174,7 @@
     <input type="email" id="loginEmail" placeholder="Email address">
     <input type="password" id="loginPassword" placeholder="Password">
     <button onclick="doLogin()">Sign In</button>
-    <p id="loginError"></p>
+    <p id="loginError" style="color:var(--danger); font-size:0.8rem; margin-top:10px; display:none;"></p>
   </div>
 </div>
 
@@ -175,7 +190,7 @@
 </div>
 
 <div id="main">
-  <div class="topbar"><h2 id="topbarTitle">Hero / Bio</h2><span class="user-badge" id="userBadge">...</span></div>
+  <div class="topbar"><h2 id="topbarTitle">Hero / Bio</h2><span id="userBadge" style="font-size:0.85rem; color:var(--muted)">...</span></div>
   <div class="content">
 
     <!-- HERO PANEL -->
@@ -193,17 +208,16 @@
           <div class="form-grid">
             <div class="form-group"><label>Name (EN)</label><input id="h_name_en"></div>
             <div class="form-group"><label>Subtitle (EN)</label><input id="h_subtitle_en"></div>
-            <div class="form-group full"><label>Bio (EN)</label><textarea id="h_bio_en"></textarea></div>
+            <div class="form-group full"><label>Bio (EN)</label><textarea id="h_bio_en" rows="4"></textarea></div>
             <div class="form-group full"><label>Location (EN)</label><input id="h_location_en"></div>
           </div>
         </div>
 
-        <!-- FR and AR blocks omitted for brevity in template, logic remains same -->
         <div id="h-lang-fr" class="h-lang-block" style="display:none">
           <div class="form-grid">
             <div class="form-group"><label>Name (FR)</label><input id="h_name_fr"></div>
             <div class="form-group"><label>Subtitle (FR)</label><input id="h_subtitle_fr"></div>
-            <div class="form-group full"><label>Bio (FR)</label><textarea id="h_bio_fr"></textarea></div>
+            <div class="form-group full"><label>Bio (FR)</label><textarea id="h_bio_fr" rows="4"></textarea></div>
             <div class="form-group full"><label>Location (FR)</label><input id="h_location_fr"></div>
           </div>
         </div>
@@ -212,7 +226,7 @@
           <div class="form-grid">
             <div class="form-group"><label>Name (AR)</label><input id="h_name_ar" dir="rtl"></div>
             <div class="form-group"><label>Subtitle (AR)</label><input id="h_subtitle_ar" dir="rtl"></div>
-            <div class="form-group full"><label>Bio (AR)</label><textarea id="h_bio_ar" dir="rtl"></textarea></div>
+            <div class="form-group full"><label>Bio (AR)</label><textarea id="h_bio_ar" dir="rtl" rows="4"></textarea></div>
             <div class="form-group full"><label>Location (AR)</label><input id="h_location_ar" dir="rtl"></div>
           </div>
         </div>
@@ -221,11 +235,11 @@
 
         <div class="form-grid">
           <div class="form-group full">
-            <label>Profile Image URL</label>
+            <label>Profile Photo</label>
             <div class="hero-preview-container">
                 <img id="hero-preview-img" src="https://via.placeholder.com/80" class="hero-preview-img" onerror="this.src='https://via.placeholder.com/80'">
                 <div class="upload-wrapper" style="flex:1">
-                    <input id="h_photo_url" placeholder="https://..." oninput="document.getElementById('hero-preview-img').src=this.value">
+                    <input id="h_photo_url" placeholder="Paste image URL or upload..." oninput="document.getElementById('hero-preview-img').src=this.value">
                     <label class="upload-btn-label">📁 Upload Image<input type="file" accept="image/*" onchange="uploadImage(this, 'h_photo_url')"></label>
                 </div>
             </div>
@@ -239,13 +253,13 @@
 
     <!-- LIST PANELS -->
     <div class="panel" id="panel-experience">
-      <div class="card"><div class="card-header"><h3>Experience</h3><button class="btn btn-primary" onclick="openModal('experience')">+ Add Experience</button></div><div id="list-experience"></div></div>
+      <div class="card"><div class="card-header"><h3>Experience</h3><button class="btn btn-primary" onclick="openModal('experience')">+ Add New</button></div><div id="list-experience"></div></div>
     </div>
     <div class="panel" id="panel-education">
-      <div class="card"><div class="card-header"><h3>Education</h3><button class="btn btn-primary" onclick="openModal('education')">+ Add Education</button></div><div id="list-education"></div></div>
+      <div class="card"><div class="card-header"><h3>Education</h3><button class="btn btn-primary" onclick="openModal('education')">+ Add New</button></div><div id="list-education"></div></div>
     </div>
     <div class="panel" id="panel-certifications">
-      <div class="card"><div class="card-header"><h3>Certifications</h3><button class="btn btn-primary" onclick="openModal('certifications')">+ Add Certification</button></div><div id="list-certifications"></div></div>
+      <div class="card"><div class="card-header"><h3>Certifications</h3><button class="btn btn-primary" onclick="openModal('certifications')">+ Add New</button></div><div id="list-certifications"></div></div>
     </div>
 
   </div>
@@ -256,7 +270,7 @@
   <div class="modal">
     <div class="card-header"><h3 id="modalTitle">Edit</h3><button class="btn-ghost" onclick="closeModal()">✕</button></div>
     <div id="modalBody"></div>
-    <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:1.5rem;">
+    <div style="display:flex; justify-content:flex-end; gap:0.8rem; margin-top:2rem;">
       <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
       <button class="btn btn-primary" onclick="saveModal()">Save Changes</button>
     </div>
@@ -279,7 +293,7 @@ let editingTable = null;
 async function init() {
   const { data: { session } } = await db.auth.getSession();
   if (session) showApp(session.user);
-  db.auth.onAuthStateChange((event, session) => { if (event === 'SIGNED_OUT') location.reload(); });
+  db.auth.onAuthStateChange((event) => { if (event === 'SIGNED_OUT') location.reload(); });
 }
 
 async function doLogin() {
@@ -287,8 +301,8 @@ async function doLogin() {
   const password = document.getElementById('loginPassword').value;
   const { data, error } = await db.auth.signInWithPassword({ email, password });
   if (error) { 
-    document.getElementById('loginError').textContent = error.message; 
-    document.getElementById('loginError').style.display='block'; 
+    const errEl = document.getElementById('loginError');
+    errEl.textContent = error.message; errEl.style.display='block'; 
     return; 
   }
   showApp(data.user);
@@ -326,22 +340,19 @@ async function uploadImage(input, targetId) {
   const { data: { session } } = await db.auth.getSession();
   if (!session) { showToast('Session expired.', 'error'); return; }
 
-  const fileExt = file.name.split('.').pop();
-  const fileName = `${Date.now()}.${fileExt}`;
-  
+  const fileName = `${Date.now()}_${file.name.replace(/\s/g, '_')}`;
   showToast('Uploading...', 'success');
-  const { data, error } = await db.storage.from('portfolio').upload(fileName, file);
-  if (error) { console.error(error); showToast('Upload failed: ' + error.message, 'error'); return; }
+  
+  const { error } = await db.storage.from('portfolio').upload(fileName, file);
+  if (error) { showToast('Upload failed: ' + error.message, 'error'); return; }
   
   const { data: { publicUrl } } = db.storage.from('portfolio').getPublicUrl(fileName);
   const inputEl = document.getElementById(targetId);
   if (inputEl) {
     inputEl.value = publicUrl;
-    // Special check for hero preview
     if (targetId === 'h_photo_url') document.getElementById('hero-preview-img').src = publicUrl;
-    // Special check for modal preview
     if (targetId === 'm_image_url') document.getElementById('modal-preview-img').src = publicUrl;
-    showToast('Uploaded!', 'success');
+    showToast('Image Uploaded!', 'success');
   }
 }
 
@@ -360,41 +371,45 @@ async function loadHero() {
 }
 
 async function saveHero() {
-  if (!currentHeroId) { showToast('Error: No hero ID', 'error'); return; }
+  if (!currentHeroId) { showToast('Error: Hero ID missing.', 'error'); return; }
   const payload = {};
   const fields = ['name_en','name_fr','name_ar','subtitle_en','subtitle_fr','subtitle_ar','bio_en','bio_fr','bio_ar','location_en','location_fr','location_ar','photo_url','phone','email','linkedin'];
   fields.forEach(k => { const el = document.getElementById('h_'+k); if(el) payload[k] = el.value; });
   const { error } = await db.from('hero').update(payload).eq('id', currentHeroId);
-  error ? showToast(error.message, 'error') : showToast('Saved!', 'success');
+  error ? showToast(error.message, 'error') : showToast('Hero Updated!', 'success');
 }
 
 async function loadList(table) {
   const container = document.getElementById('list-' + table);
-  container.innerHTML = '<p style="padding:1rem;color:var(--muted)">Loading...</p>';
+  container.innerHTML = '<p style="padding:2rem;color:var(--muted);text-align:center">Loading items...</p>';
   const { data, error } = await db.from(table).select('*').order('sort_order', { ascending: true });
   if (error) { container.innerHTML = `<p style="padding:1rem;color:var(--danger)">Error: ${error.message}</p>`; return; }
   
-  container.innerHTML = data.map(row => `
+  container.innerHTML = data.map(row => {
+    const thumb = row.image_url || row.photo_url || 'https://via.placeholder.com/50';
+    return `
     <div class="item-row">
-      <img src="${row.image_url || row.photo_url || 'https://via.placeholder.com/50'}" onerror="this.src='https://via.placeholder.com/50'">
+      <div class="img-preview-box"><img src="${thumb}" onerror="this.src='https://via.placeholder.com/50'"></div>
       <div class="item-row-body">
-        <strong>${row.title_en || row.degree_en || 'Untitled'}</strong><br>
-        <small>${row.org_en || ''}</small>
+        <strong>${row.title_en || row.degree_en || 'Untitled Item'}</strong>
+        <small style="color:var(--muted)">${row.org_en || ''}</small>
       </div>
       <div style="display:flex; gap:0.5rem">
         <button class="btn btn-ghost" onclick="openModal('${table}', '${row.id}')">Edit</button>
-        <button class="btn btn-danger" onclick="deleteRow('${table}', '${row.id}')">Delete</button>
+        <button class="btn btn-danger" onclick="deleteRow('${table}', '${row.id}')">✕</button>
       </div>
-    </div>`).join('');
+    </div>`}).join('');
 }
 
 const modalForms = {
   experience: (d={}) => `
-    <div class="form-group"><label>Image Preview & URL</label>
-      <div class="upload-wrapper" style="background:var(--bg); padding:0.5rem; border-radius:10px;">
-        <img id="modal-preview-img" src="${d.image_url||'https://via.placeholder.com/50'}" style="width:50px; height:50px; border-radius:8px; object-fit:cover; border:1px solid var(--border)">
-        <input id="m_image_url" value="${d.image_url||''}" oninput="document.getElementById('modal-preview-img').src=this.value">
-        <label class="upload-btn-label">📁 Upload<input type="file" onchange="uploadImage(this,'m_image_url')"></label>
+    <div class="form-group"><label>Thumbnail Preview & Image Link</label>
+      <div class="upload-wrapper" style="background:var(--bg); padding:1rem; border-radius:12px; border:1px solid var(--border);">
+        <img id="modal-preview-img" src="${d.image_url||'https://via.placeholder.com/100'}" class="modal-img-preview">
+        <div style="flex:1; display:flex; flex-direction:column; gap:8px;">
+            <input id="m_image_url" value="${d.image_url||''}" placeholder="Image URL..." oninput="document.getElementById('modal-preview-img').src=this.value">
+            <label class="upload-btn-label">📁 Upload File<input type="file" onchange="uploadImage(this,'m_image_url')"></label>
+        </div>
       </div>
     </div>
     <div class="lang-tabs"><span class="lang-tab active" onclick="switchLangTab(this, 'm-lang', 'en')">EN</span><span class="lang-tab" onclick="switchLangTab(this, 'm-lang', 'fr')">FR</span><span class="lang-tab" onclick="switchLangTab(this, 'm-lang', 'ar')">AR</span></div>
@@ -402,28 +417,30 @@ const modalForms = {
         <div class="form-group"><label>Title (EN)</label><input id="m_title_en" value="${d.title_en||''}"></div>
         <div class="form-group"><label>Org (EN)</label><input id="m_org_en" value="${d.org_en||''}"></div>
         <div class="form-group"><label>Date (EN)</label><input id="m_date_en" value="${d.date_en||''}"></div>
-        <div class="form-group full"><label>Desc (EN)</label><textarea id="m_desc_en">${d.desc_en||''}</textarea></div>
+        <div class="form-group full"><label>Desc (EN)</label><textarea id="m_desc_en" rows="3">${d.desc_en||''}</textarea></div>
     </div></div>
     <div id="m-lang-fr" style="display:none"><div class="form-grid">
         <div class="form-group"><label>Title (FR)</label><input id="m_title_fr" value="${d.title_fr||''}"></div>
         <div class="form-group"><label>Org (FR)</label><input id="m_org_fr" value="${d.org_fr||''}"></div>
         <div class="form-group"><label>Date (FR)</label><input id="m_date_fr" value="${d.date_fr||''}"></div>
-        <div class="form-group full"><label>Desc (FR)</label><textarea id="m_desc_fr">${d.desc_fr||''}</textarea></div>
+        <div class="form-group full"><label>Desc (FR)</label><textarea id="m_desc_fr" rows="3">${d.desc_fr||''}</textarea></div>
     </div></div>
     <div id="m-lang-ar" style="display:none"><div class="form-grid">
         <div class="form-group"><label>Title (AR)</label><input id="m_title_ar" value="${d.title_ar||''}" dir="rtl"></div>
         <div class="form-group"><label>Org (AR)</label><input id="m_org_ar" value="${d.org_ar||''}" dir="rtl"></div>
         <div class="form-group"><label>Date (AR)</label><input id="m_date_ar" value="${d.date_ar||''}" dir="rtl"></div>
-        <div class="form-group full"><label>Desc (AR)</label><textarea id="m_desc_ar" dir="rtl">${d.desc_ar||''}</textarea></div>
+        <div class="form-group full"><label>Desc (AR)</label><textarea id="m_desc_ar" dir="rtl" rows="3">${d.desc_ar||''}</textarea></div>
     </div></div>
     <div class="form-group"><label>Sort Order</label><input type="number" id="m_sort_order" value="${d.sort_order||0}"></div>`,
     
   education: (d={}) => `
-    <div class="form-group"><label>Image Preview & URL</label>
-      <div class="upload-wrapper" style="background:var(--bg); padding:0.5rem; border-radius:10px;">
-        <img id="modal-preview-img" src="${d.image_url||'https://via.placeholder.com/50'}" style="width:50px; height:50px; border-radius:8px; object-fit:cover; border:1px solid var(--border)">
-        <input id="m_image_url" value="${d.image_url||''}" oninput="document.getElementById('modal-preview-img').src=this.value">
-        <label class="upload-btn-label">📁 Upload<input type="file" onchange="uploadImage(this,'m_image_url')"></label>
+    <div class="form-group"><label>Thumbnail Preview & Image Link</label>
+      <div class="upload-wrapper" style="background:var(--bg); padding:1rem; border-radius:12px; border:1px solid var(--border);">
+        <img id="modal-preview-img" src="${d.image_url||'https://via.placeholder.com/100'}" class="modal-img-preview">
+        <div style="flex:1; display:flex; flex-direction:column; gap:8px;">
+            <input id="m_image_url" value="${d.image_url||''}" placeholder="Image URL..." oninput="document.getElementById('modal-preview-img').src=this.value">
+            <label class="upload-btn-label">📁 Upload File<input type="file" onchange="uploadImage(this,'m_image_url')"></label>
+        </div>
       </div>
     </div>
     <div class="lang-tabs"><span class="lang-tab active" onclick="switchLangTab(this, 'm-lang', 'en')">EN</span><span class="lang-tab" onclick="switchLangTab(this, 'm-lang', 'fr')">FR</span><span class="lang-tab" onclick="switchLangTab(this, 'm-lang', 'ar')">AR</span></div>
@@ -445,11 +462,13 @@ const modalForms = {
     <div class="form-group"><label>Sort Order</label><input type="number" id="m_sort_order" value="${d.sort_order||0}"></div>`,
 
   certifications: (d={}) => `
-    <div class="form-group"><label>Image Preview & URL</label>
-      <div class="upload-wrapper" style="background:var(--bg); padding:0.5rem; border-radius:10px;">
-        <img id="modal-preview-img" src="${d.image_url||'https://via.placeholder.com/50'}" style="width:50px; height:50px; border-radius:8px; object-fit:cover; border:1px solid var(--border)">
-        <input id="m_image_url" value="${d.image_url||''}" oninput="document.getElementById('modal-preview-img').src=this.value">
-        <label class="upload-btn-label">📁 Upload<input type="file" onchange="uploadImage(this,'m_image_url')"></label>
+    <div class="form-group"><label>Thumbnail Preview & Image Link</label>
+      <div class="upload-wrapper" style="background:var(--bg); padding:1rem; border-radius:12px; border:1px solid var(--border);">
+        <img id="modal-preview-img" src="${d.image_url||'https://via.placeholder.com/100'}" class="modal-img-preview">
+        <div style="flex:1; display:flex; flex-direction:column; gap:8px;">
+            <input id="m_image_url" value="${d.image_url||''}" placeholder="Image URL..." oninput="document.getElementById('modal-preview-img').src=this.value">
+            <label class="upload-btn-label">📁 Upload File<input type="file" onchange="uploadImage(this,'m_image_url')"></label>
+        </div>
       </div>
     </div>
     <div class="lang-tabs"><span class="lang-tab active" onclick="switchLangTab(this, 'm-lang', 'en')">EN</span><span class="lang-tab" onclick="switchLangTab(this, 'm-lang', 'fr')">FR</span><span class="lang-tab" onclick="switchLangTab(this, 'm-lang', 'ar')">AR</span></div>
@@ -465,7 +484,7 @@ const modalForms = {
         <div class="form-group"><label>Title (AR)</label><input id="m_title_ar" value="${d.title_ar||''}" dir="rtl"></div>
         <div class="form-group"><label>Org (AR)</label><input id="m_org_ar" value="${d.org_ar||''}" dir="rtl"></div>
     </div></div>
-    <div class="form-group"><label>Icon (Emoji)</label><input id="m_icon" value="${d.icon||'📜'}"></div>
+    <div class="form-group"><label>Icon (Emoji Backup)</label><input id="m_icon" value="${d.icon||'📜'}"></div>
     <div class="form-group"><label>Sort Order</label><input type="number" id="m_sort_order" value="${d.sort_order||0}"></div>`
 };
 
@@ -497,14 +516,15 @@ async function saveModal() {
     ['title_en','title_fr','title_ar','org_en','org_fr','org_ar','icon','image_url'].forEach(k => payload[k] = getVal('m_'+k));
   }
 
+  // Supabase cleanup
   Object.keys(payload).forEach(key => { if (payload[key] === null) delete payload[key]; });
 
   const { error } = editingId ? await db.from(t).update(payload).eq('id', editingId) : await db.from(t).insert([payload]);
-  if (error) { showToast(error.message, 'error'); } else { showToast('Saved!', 'success'); closeModal(); loadList(t); }
+  if (error) { showToast(error.message, 'error'); } else { showToast('Saved Successfully!', 'success'); closeModal(); loadList(t); }
 }
 
 async function deleteRow(table, id) {
-  if (!confirm('Delete this item?')) return;
+  if (!confirm('Permanently delete this item?')) return;
   const { error } = await db.from(table).delete().eq('id', id);
   error ? showToast(error.message, 'error') : (showToast('Deleted', 'success'), loadList(table));
 }
