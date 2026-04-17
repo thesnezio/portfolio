@@ -64,7 +64,7 @@
   .nav-item:hover { background: rgba(255,255,255,0.05); color: white; }
   .nav-item.active { background: rgba(108,99,255,0.2); color: white; border-left-color: var(--accent); }
   .logout-btn {
-    width: 100%; padding: 0.6rem; background: rgba(226,75,74,0.2); color: #f09595;
+    width: calc(100% - 2rem); padding: 0.6rem; background: rgba(226,75,74,0.2); color: #f09595;
     border: 1px solid rgba(226,75,74,0.3); border-radius: 8px; cursor: pointer; font-size: 0.85rem;
     margin: 1rem;
   }
@@ -101,6 +101,7 @@
   .upload-btn-label { 
     background: var(--accent-light); color: var(--accent); padding: 0.7rem 1rem; 
     border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
   }
   .upload-btn-label:hover { background: var(--accent); color: white; }
   input[type="file"] { display: none; }
@@ -158,10 +159,10 @@
 <div id="sidebar">
   <div class="sidebar-logo"><div class="logo-circle">YN</div><span>Admin</span></div>
   <nav class="sidebar-nav">
-    <div class="nav-item active" onclick="showPanel('hero')">👤<span>Hero / Bio</span></div>
-    <div class="nav-item" onclick="showPanel('experience')">💼<span>Experience</span></div>
-    <div class="nav-item" onclick="showPanel('education')">🎓<span>Education</span></div>
-    <div class="nav-item" onclick="showPanel('certifications')">📜<span>Certifications</span></div>
+    <div id="nav-hero" class="nav-item active" onclick="showPanel('hero')">👤<span>Hero / Bio</span></div>
+    <div id="nav-experience" class="nav-item" onclick="showPanel('experience')">💼<span>Experience</span></div>
+    <div id="nav-education" class="nav-item" onclick="showPanel('education')">🎓<span>Education</span></div>
+    <div id="nav-certifications" class="nav-item" onclick="showPanel('certifications')">📜<span>Certifications</span></div>
   </nav>
   <button class="logout-btn" onclick="doLogout()">Sign Out</button>
 </div>
@@ -215,24 +216,25 @@
             <label>Profile Image URL</label>
             <div class="upload-wrapper">
               <input id="h_photo_url" placeholder="https://...">
-              <label class="upload-btn-label">📁 Upload<input type="file" onchange="uploadImage(this, 'h_photo_url')"></label>
+              <label class="upload-btn-label">📁 Upload Image<input type="file" accept="image/*" onchange="uploadImage(this, 'h_photo_url')"></label>
             </div>
           </div>
           <div class="form-group"><label>Phone</label><input id="h_phone"></div>
           <div class="form-group"><label>Email</label><input id="h_email"></div>
+          <div class="form-group full"><label>LinkedIn URL</label><input id="h_linkedin"></div>
         </div>
       </div>
     </div>
 
     <!-- LIST PANELS -->
     <div class="panel" id="panel-experience">
-      <div class="card"><div class="card-header"><h3>Experience</h3><button class="btn btn-primary" onclick="openModal('experience')">+ Add</button></div><div id="list-experience"></div></div>
+      <div class="card"><div class="card-header"><h3>Experience</h3><button class="btn btn-primary" onclick="openModal('experience')">+ Add Experience</button></div><div id="list-experience"></div></div>
     </div>
     <div class="panel" id="panel-education">
-      <div class="card"><div class="card-header"><h3>Education</h3><button class="btn btn-primary" onclick="openModal('education')">+ Add</button></div><div id="list-education"></div></div>
+      <div class="card"><div class="card-header"><h3>Education</h3><button class="btn btn-primary" onclick="openModal('education')">+ Add Education</button></div><div id="list-education"></div></div>
     </div>
     <div class="panel" id="panel-certifications">
-      <div class="card"><div class="card-header"><h3>Certifications</h3><button class="btn btn-primary" onclick="openModal('certifications')">+ Add</button></div><div id="list-certifications"></div></div>
+      <div class="card"><div class="card-header"><h3>Certifications</h3><button class="btn btn-primary" onclick="openModal('certifications')">+ Add Certification</button></div><div id="list-certifications"></div></div>
     </div>
 
   </div>
@@ -245,7 +247,7 @@
     <div id="modalBody"></div>
     <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:1.5rem;">
       <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-primary" onclick="saveModal()">Save</button>
+      <button class="btn btn-primary" onclick="saveModal()">Save Changes</button>
     </div>
   </div>
 </div>
@@ -260,6 +262,7 @@ const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let currentPanel = 'hero';
+let currentHeroId = null;
 let editingId = null;
 let editingTable = null;
 
@@ -272,7 +275,11 @@ async function doLogin() {
   const email = document.getElementById('loginEmail').value;
   const password = document.getElementById('loginPassword').value;
   const { data, error } = await db.auth.signInWithPassword({ email, password });
-  if (error) { document.getElementById('loginError').textContent = error.message; document.getElementById('loginError').style.display='block'; return; }
+  if (error) { 
+    document.getElementById('loginError').textContent = error.message; 
+    document.getElementById('loginError').style.display='block'; 
+    return; 
+  }
   showApp(data.user);
 }
 
@@ -289,6 +296,7 @@ function showPanel(name) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById('panel-' + name).classList.add('active');
+  document.getElementById('nav-' + name).classList.add('active');
   document.getElementById('topbarTitle').textContent = name.charAt(0).toUpperCase() + name.slice(1);
   if (name !== 'hero') loadList(name);
 }
@@ -305,53 +313,101 @@ function switchLangTab(el, prefix, lang) {
 async function uploadImage(input, targetId) {
   const file = input.files[0];
   if (!file) return;
-  const fileName = `${Date.now()}_${file.name.replace(/\s/g, '_')}`;
   
-  showToast('Uploading...', 'success');
-  const { data, error } = await db.storage.from('portfolio').upload(fileName, file);
+  // Clean file name
+  const fileExt = file.name.split('.').pop();
+  const fileName = `${Date.now()}.${fileExt}`;
+  const filePath = `uploads/${fileName}`;
   
-  if (error) { showToast('Upload failed: ' + error.message, 'error'); return; }
+  showToast('Uploading image...', 'success');
   
-  const { data: { publicUrl } } = db.storage.from('portfolio').getPublicUrl(fileName);
-  document.getElementById(targetId).value = publicUrl;
-  showToast('Uploaded successfully!', 'success');
+  const { data, error } = await db.storage.from('portfolio').upload(filePath, file);
+  
+  if (error) { 
+    console.error("Upload error:", error);
+    showToast('Upload failed: ' + error.message, 'error'); 
+    return; 
+  }
+  
+  const { data: { publicUrl } } = db.storage.from('portfolio').getPublicUrl(filePath);
+  
+  const inputEl = document.getElementById(targetId);
+  if (inputEl) {
+    inputEl.value = publicUrl;
+    showToast('Image uploaded successfully!', 'success');
+  }
 }
 
 async function loadHero() {
-  const { data } = await db.from('hero').select('*').limit(1).single();
-  if (!data) return;
-  const f = ['name_en','name_fr','name_ar','subtitle_en','subtitle_fr','subtitle_ar','bio_en','bio_fr','bio_ar','location_en','location_fr','location_ar','photo_url','phone','email'];
-  f.forEach(k => { if(document.getElementById('h_'+k)) document.getElementById('h_'+k).value = data[k] || ''; });
+  const { data, error } = await db.from('hero').select('*').limit(1).single();
+  if (error || !data) return;
+  
+  currentHeroId = data.id;
+  const fields = ['name_en','name_fr','name_ar','subtitle_en','subtitle_fr','subtitle_ar','bio_en','bio_fr','bio_ar','location_en','location_fr','location_ar','photo_url','phone','email','linkedin'];
+  fields.forEach(k => { 
+    const el = document.getElementById('h_'+k);
+    if(el) el.value = data[k] || ''; 
+  });
 }
 
 async function saveHero() {
+  if (!currentHeroId) {
+    showToast('Error: No hero ID found', 'error');
+    return;
+  }
+  
   const payload = {};
-  const f = ['name_en','name_fr','name_ar','subtitle_en','subtitle_fr','subtitle_ar','bio_en','bio_fr','bio_ar','location_en','location_fr','location_ar','photo_url','phone','email'];
-  f.forEach(k => payload[k] = document.getElementById('h_'+k).value);
-  const { error } = await db.from('hero').update(payload).neq('id', '00000000-0000-0000-0000-000000000000');
-  error ? showToast(error.message, 'error') : showToast('Saved!', 'success');
+  const fields = ['name_en','name_fr','name_ar','subtitle_en','subtitle_fr','subtitle_ar','bio_en','bio_fr','bio_ar','location_en','location_fr','location_ar','photo_url','phone','email','linkedin'];
+  fields.forEach(k => {
+    const el = document.getElementById('h_'+k);
+    if(el) payload[k] = el.value;
+  });
+
+  const { error } = await db.from('hero').update(payload).eq('id', currentHeroId);
+  if (error) {
+    showToast(error.message, 'error');
+  } else {
+    showToast('Hero section updated!', 'success');
+  }
 }
 
 async function loadList(table) {
   const container = document.getElementById('list-' + table);
-  container.innerHTML = 'Loading...';
-  const { data } = await db.from(table).select('*').order('sort_order');
+  container.innerHTML = '<p style="padding:1rem;color:var(--muted)">Loading items...</p>';
+  
+  const { data, error } = await db.from(table).select('*').order('sort_order', { ascending: true });
+  
+  if (error) {
+    container.innerHTML = `<p style="padding:1rem;color:var(--danger)">Error loading list: ${error.message}</p>`;
+    return;
+  }
+
+  if (data.length === 0) {
+    container.innerHTML = '<p style="padding:2rem;text-align:center;color:var(--muted)">No items found. Click "+ Add" to create one.</p>';
+    return;
+  }
+
   container.innerHTML = data.map(row => `
     <div class="item-row">
-      <img src="${row.image_url || row.photo_url || ''}">
+      <img src="${row.image_url || row.photo_url || 'https://via.placeholder.com/50'}" onerror="this.src='https://via.placeholder.com/50'">
       <div class="item-row-body">
-        <strong>${row.title_en || row.degree_en}</strong><br>
+        <strong>${row.title_en || row.degree_en || 'Untitled'}</strong><br>
         <small>${row.org_en || ''}</small>
       </div>
-      <button class="btn btn-ghost" onclick="openModal('${table}', '${row.id}')">Edit</button>
-      <button class="btn btn-danger" onclick="deleteRow('${table}', '${row.id}')">Delete</button>
+      <div style="display:flex; gap:0.5rem">
+        <button class="btn btn-ghost" onclick="openModal('${table}', '${row.id}')">Edit</button>
+        <button class="btn btn-danger" onclick="deleteRow('${table}', '${row.id}')">Delete</button>
+      </div>
     </div>`).join('');
 }
 
 const modalForms = {
   experience: (d={}) => `
-    <div class="form-group"><label>Image URL</label>
-      <div class="upload-wrapper"><input id="m_image_url" value="${d.image_url||''}"><label class="upload-btn-label">📁<input type="file" onchange="uploadImage(this,'m_image_url')"></label></div>
+    <div class="form-group"><label>Image URL (Upload or Paste)</label>
+      <div class="upload-wrapper">
+        <input id="m_image_url" value="${d.image_url||''}">
+        <label class="upload-btn-label">📁 Upload<input type="file" accept="image/*" onchange="uploadImage(this,'m_image_url')"></label>
+      </div>
     </div>
     <div class="lang-tabs">
       <span class="lang-tab active" onclick="switchLangTab(this, 'm-lang', 'en')">EN</span>
@@ -382,11 +438,14 @@ const modalForms = {
         <div class="form-group full"><label>Desc (AR)</label><textarea id="m_desc_ar" dir="rtl">${d.desc_ar||''}</textarea></div>
       </div>
     </div>
-    <div class="form-group"><label>Order</label><input type="number" id="m_sort_order" value="${d.sort_order||0}"></div>`,
+    <div class="form-group"><label>Sort Order</label><input type="number" id="m_sort_order" value="${d.sort_order||0}"></div>`,
     
   education: (d={}) => `
     <div class="form-group"><label>Image URL</label>
-      <div class="upload-wrapper"><input id="m_image_url" value="${d.image_url||''}"><label class="upload-btn-label">📁<input type="file" onchange="uploadImage(this,'m_image_url')"></label></div>
+      <div class="upload-wrapper">
+        <input id="m_image_url" value="${d.image_url||''}">
+        <label class="upload-btn-label">📁 Upload<input type="file" accept="image/*" onchange="uploadImage(this,'m_image_url')"></label>
+      </div>
     </div>
     <div class="lang-tabs">
       <span class="lang-tab active" onclick="switchLangTab(this, 'm-lang', 'en')">EN</span>
@@ -414,11 +473,14 @@ const modalForms = {
         <div class="form-group"><label>Date (AR)</label><input id="m_date_ar" value="${d.date_ar||''}" dir="rtl"></div>
       </div>
     </div>
-    <div class="form-group"><label>Order</label><input type="number" id="m_sort_order" value="${d.sort_order||0}"></div>`,
+    <div class="form-group"><label>Sort Order</label><input type="number" id="m_sort_order" value="${d.sort_order||0}"></div>`,
 
   certifications: (d={}) => `
-    <div class="form-group"><label>Certificate Image/Icon</label>
-      <div class="upload-wrapper"><input id="m_image_url" value="${d.image_url||''}"><label class="upload-btn-label">📁<input type="file" onchange="uploadImage(this,'m_image_url')"></label></div>
+    <div class="form-group"><label>Certificate Image URL</label>
+      <div class="upload-wrapper">
+        <input id="m_image_url" value="${d.image_url||''}">
+        <label class="upload-btn-label">📁 Upload<input type="file" accept="image/*" onchange="uploadImage(this,'m_image_url')"></label>
+      </div>
     </div>
     <div class="lang-tabs">
       <span class="lang-tab active" onclick="switchLangTab(this, 'm-lang', 'en')">EN</span>
@@ -443,26 +505,39 @@ const modalForms = {
         <div class="form-group"><label>Org (AR)</label><input id="m_org_ar" value="${d.org_ar||''}" dir="rtl"></div>
       </div>
     </div>
-    <div class="form-group"><label>Icon (Emoji)</label><input id="m_icon" value="${d.icon||'📜'}"></div>
-    <div class="form-group"><label>Order</label><input type="number" id="m_sort_order" value="${d.sort_order||0}"></div>`
+    <div class="form-group"><label>Icon (Emoji Default)</label><input id="m_icon" value="${d.icon||'📜'}"></div>
+    <div class="form-group"><label>Sort Order</label><input type="number" id="m_sort_order" value="${d.sort_order||0}"></div>`
 };
 
 async function openModal(table, id=null) {
-  editingId = id; editingTable = table;
-  document.getElementById('modalTitle').textContent = (id ? 'Edit ' : 'Add ') + table;
+  editingId = id; 
+  editingTable = table;
+  document.getElementById('modalTitle').textContent = (id ? 'Edit ' : 'Add ') + table.charAt(0).toUpperCase() + table.slice(1);
+  
   let data = {};
-  if (id) { const { data: row } = await db.from(table).select('*').eq('id', id).single(); data = row; }
+  if (id) { 
+    const { data: row, error } = await db.from(table).select('*').eq('id', id).single(); 
+    if (error) { showToast("Error loading item: " + error.message, "error"); return; }
+    data = row; 
+  }
+  
   document.getElementById('modalBody').innerHTML = modalForms[table](data);
   document.getElementById('modalOverlay').classList.add('open');
 }
 
-function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
+function closeModal() { 
+  document.getElementById('modalOverlay').classList.remove('open'); 
+  editingId = null; 
+}
 
 async function saveModal() {
   const t = editingTable;
   const payload = { sort_order: parseInt(document.getElementById('m_sort_order').value) || 0 };
   
-  const getVal = id => document.getElementById(id) ? document.getElementById(id).value : null;
+  const getVal = id => {
+    const el = document.getElementById(id);
+    return el ? el.value : null;
+  };
 
   if (t === 'experience') {
     ['title_en','title_fr','title_ar','org_en','org_fr','org_ar','date_en','date_fr','date_ar','desc_en','desc_fr','desc_ar','image_url'].forEach(k => payload[k] = getVal('m_'+k));
@@ -472,19 +547,34 @@ async function saveModal() {
     ['title_en','title_fr','title_ar','org_en','org_fr','org_ar','icon','image_url'].forEach(k => payload[k] = getVal('m_'+k));
   }
 
-  const { error } = editingId ? await db.from(t).update(payload).eq('id', editingId) : await db.from(t).insert([payload]);
-  if (error) { showToast(error.message, 'error'); return; }
-  showToast('Saved!', 'success'); closeModal(); loadList(t);
+  const { error } = editingId 
+    ? await db.from(t).update(payload).eq('id', editingId) 
+    : await db.from(t).insert([payload]);
+    
+  if (error) { 
+    showToast(error.message, 'error'); 
+  } else {
+    showToast('Saved successfully!', 'success'); 
+    closeModal(); 
+    loadList(t);
+  }
 }
 
 async function deleteRow(table, id) {
-  if (!confirm('Delete?')) return;
-  await db.from(table).delete().eq('id', id);
-  loadList(table);
+  if (!confirm('Are you sure you want to delete this item?')) return;
+  const { error } = await db.from(table).delete().eq('id', id);
+  if (error) {
+    showToast(error.message, 'error');
+  } else {
+    showToast('Item deleted', 'success');
+    loadList(table);
+  }
 }
 
 function showToast(m, type) {
-  const t = document.getElementById('toast'); t.textContent = m; t.className = 'show ' + type;
+  const t = document.getElementById('toast'); 
+  t.textContent = m; 
+  t.className = 'show ' + type;
   setTimeout(() => t.className = '', 3000);
 }
 
