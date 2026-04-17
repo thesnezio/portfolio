@@ -160,12 +160,22 @@
         
         @media (max-width:1024px) { .contact-wrapper { grid-template-columns:1fr; gap:3rem; } }
         @media (max-width:768px) { 
-            section { padding:60px 5%; } 
+            section { padding:60px 5%; text-align: center; } 
             .hero h1 { font-size:2.2rem; } 
             .hero { padding-top: 100px; min-height: auto; }
             .stats-grid { grid-template-columns: 1fr; }
             .nav-links { display: none; }
             .section-title { font-size: 1.8rem; }
+            
+            /* Enhanced Centering for Mobile */
+            .card-body { text-align: center !important; }
+            .timeline { border-left: none; padding-left: 0; margin-left: 0; }
+            .timeline-dot { display: none; }
+            .contact-card { flex-direction: column; text-align: center; justify-content: center; }
+            .contact-info { align-items: center; }
+            .footer-social-links { justify-content: center; }
+            .visual-card.row .card-image { width: 100%; height: 180px; }
+            .visual-card.cert-card.row .card-image { width: 100%; height: 120px; }
         }
     </style>
 </head>
