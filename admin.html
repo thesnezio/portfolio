@@ -269,6 +269,11 @@ let editingTable = null;
 async function init() {
   const { data: { session } } = await db.auth.getSession();
   if (session) showApp(session.user);
+  
+  // Listen for auth changes to handle token expiration
+  db.auth.onAuthStateChange((event, session) => {
+    if (event === 'SIGNED_OUT') location.reload();
+  });
 }
 
 async function doLogin() {
@@ -314,17 +319,27 @@ async function uploadImage(input, targetId) {
   const file = input.files[0];
   if (!file) return;
   
-  // Clean file name
+  // Ensure we are logged in
+  const { data: { session } } = await db.auth.getSession();
+  if (!session) {
+    showToast('Error: Session expired. Please login again.', 'error');
+    return;
+  }
+
   const fileExt = file.name.split('.').pop();
   const fileName = `${Date.now()}.${fileExt}`;
-  const filePath = `uploads/${fileName}`;
+  const filePath = `${fileName}`; // Simpler path
   
   showToast('Uploading image...', 'success');
   
-  const { data, error } = await db.storage.from('portfolio').upload(filePath, file);
+  // Storage upload
+  const { data, error } = await db.storage.from('portfolio').upload(filePath, file, {
+    cacheControl: '3600',
+    upsert: false
+  });
   
   if (error) { 
-    console.error("Upload error:", error);
+    console.error("Storage upload failed. Check RLS policies in Supabase Storage -> portfolio -> Policies.", error);
     showToast('Upload failed: ' + error.message, 'error'); 
     return; 
   }
@@ -365,7 +380,8 @@ async function saveHero() {
 
   const { error } = await db.from('hero').update(payload).eq('id', currentHeroId);
   if (error) {
-    showToast(error.message, 'error');
+    console.error("Update failed. Check RLS policies for 'hero' table.", error);
+    showToast('Update failed: ' + error.message, 'error');
   } else {
     showToast('Hero section updated!', 'success');
   }
@@ -552,7 +568,8 @@ async function saveModal() {
     : await db.from(t).insert([payload]);
     
   if (error) { 
-    showToast(error.message, 'error'); 
+    console.error(`Save failed for ${t}. Check RLS policies.`, error);
+    showToast('Save failed: ' + error.message, 'error'); 
   } else {
     showToast('Saved successfully!', 'success'); 
     closeModal(); 
@@ -564,7 +581,8 @@ async function deleteRow(table, id) {
   if (!confirm('Are you sure you want to delete this item?')) return;
   const { error } = await db.from(table).delete().eq('id', id);
   if (error) {
-    showToast(error.message, 'error');
+    console.error(`Delete failed for ${table}. Check RLS policies.`, error);
+    showToast('Delete failed: ' + error.message, 'error');
   } else {
     showToast('Item deleted', 'success');
     loadList(table);
