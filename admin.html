@@ -261,7 +261,6 @@ const SUPABASE_ANON_KEY = 'sb_publishable_4YWkhBi8PRcsyi947Kdqkg_wQcjgR4g';
 const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-let currentPanel = 'hero';
 let currentHeroId = null;
 let editingId = null;
 let editingTable = null;
@@ -296,7 +295,6 @@ function showApp(user) {
 }
 
 function showPanel(name) {
-  currentPanel = name;
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById('panel-' + name).classList.add('active');
@@ -353,7 +351,7 @@ async function loadHero() {
 }
 
 async function saveHero() {
-  if (!currentHeroId) { showToast('Error: No hero ID', 'error'); return; }
+  if (!currentHeroId) { showToast('Error: No hero ID found. Try refreshing.', 'error'); return; }
   const payload = {};
   const fields = ['name_en','name_fr','name_ar','subtitle_en','subtitle_fr','subtitle_ar','bio_en','bio_fr','bio_ar','location_en','location_fr','location_ar','photo_url','phone','email','linkedin'];
   fields.forEach(k => {
@@ -433,7 +431,7 @@ const modalForms = {
     <div class="form-group"><label>Sort Order</label><input type="number" id="m_sort_order" value="${d.sort_order||0}"></div>`,
 
   certifications: (d={}) => `
-    <div class="form-group"><label>Certificate Image URL</label>
+    <div class="form-group"><label>Image URL</label>
       <div class="upload-wrapper"><input id="m_image_url" value="${d.image_url||''}"><label class="upload-btn-label">📁 Upload<input type="file" onchange="uploadImage(this,'m_image_url')"></label></div>
     </div>
     <div class="lang-tabs"><span class="lang-tab active" onclick="switchLangTab(this, 'm-lang', 'en')">EN</span><span class="lang-tab" onclick="switchLangTab(this, 'm-lang', 'fr')">FR</span><span class="lang-tab" onclick="switchLangTab(this, 'm-lang', 'ar')">AR</span></div>
@@ -481,11 +479,18 @@ async function saveModal() {
     ['title_en','title_fr','title_ar','org_en','org_fr','org_ar','icon','image_url'].forEach(k => payload[k] = getVal('m_'+k));
   }
 
-  // Remove empty values that might trigger schema errors
+  // Final Cleanup: Supabase throws errors if you try to send columns that don't exist.
+  // We ensure we only send what is standard across our UI logic.
   Object.keys(payload).forEach(key => { if (payload[key] === null) delete payload[key]; });
 
   const { error } = editingId ? await db.from(t).update(payload).eq('id', editingId) : await db.from(t).insert([payload]);
-  if (error) { showToast(error.message, 'error'); } else { showToast('Saved!', 'success'); closeModal(); loadList(t); }
+  
+  if (error) { 
+    showToast(error.message, 'error'); 
+    console.error("Save failed. Column missing? Run the SQL fix provided in chat.", error);
+  } else { 
+    showToast('Saved!', 'success'); closeModal(); loadList(t); 
+  }
 }
 
 async function deleteRow(table, id) {
