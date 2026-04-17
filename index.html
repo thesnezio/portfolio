@@ -43,7 +43,16 @@
         ul { list-style:none; }
         section { padding:100px 5%; max-width:1200px; margin:0 auto; }
         
-        .section-title { font-size:2.5rem; margin: 0 auto 3rem; text-align:center; color:var(--text-dark); position:relative; display: block; width: fit-content; }
+        /* Fixed Centering for Titles */
+        .section-title { 
+            font-size:2.5rem; 
+            margin: 0 auto 3rem; 
+            text-align:center; 
+            color:var(--text-dark); 
+            position:relative; 
+            display: block;
+            width: fit-content;
+        }
         .section-title::after { content:''; position:absolute; bottom:-10px; left:50%; transform:translateX(-50%); width:50px; height:4px; background-color:var(--accent-purple); border-radius:2px; }
         
         .glass-card { background:var(--glass-bg); backdrop-filter:blur(10px); border:1px solid var(--glass-border); border-radius:16px; box-shadow:var(--card-shadow); padding:2rem; transition:var(--transition); overflow: hidden; }
@@ -72,11 +81,37 @@
         .blob-2 { width:300px; height:300px; background:#d8b4fe; bottom:20%; right:15%; animation-delay:-5s; }
         @keyframes float { 0%{transform:translate(0,0) scale(1)} 100%{transform:translate(30px,-50px) scale(1.1)} }
         
-        .profile-img { display: block; margin: 0 auto; width:180px; height:180px; border-radius:50%; object-fit:cover; border:4px solid var(--bg-color); box-shadow:0 0 0 4px var(--accent-purple),0 10px 25px rgba(0,0,0,0.1); transition: var(--transition); }
-        .profile-img:hover { transform: scale(1.05); filter: brightness(1.15) saturate(1.1); box-shadow: 0 0 30px var(--accent-purple), 0 10px 35px rgba(0,0,0,0.2); }
+        /* Profile Image Centering and Hover Effect */
+        .profile-img { 
+            display: block;
+            margin: 0 auto;
+            width:180px; height:180px; border-radius:50%; object-fit:cover; 
+            border:4px solid var(--bg-color); box-shadow:0 0 0 4px var(--accent-purple),0 10px 25px rgba(0,0,0,0.1); 
+            transition: var(--transition);
+        }
+        .profile-img:hover {
+            transform: scale(1.05);
+            filter: brightness(1.15) saturate(1.1);
+            box-shadow: 0 0 30px var(--accent-purple), 0 10px 35px rgba(0,0,0,0.2);
+        }
+
         .hero h1 { font-size:3.5rem; line-height:1.2; }
         .hero h2 { font-size:1.5rem; color:var(--text-muted); font-weight:500; }
-        .location-tag { display:inline-flex; align-items:center; gap:5px; background:var(--accent-lavender); color:var(--accent-purple); padding:5px 15px; border-radius:20px; font-weight:500; font-size:0.9rem; margin-top: 25px; }
+        
+        /* Lowered Morocco tag margin */
+        .location-tag { 
+            display:inline-flex; 
+            align-items:center; 
+            gap:5px; 
+            background:var(--accent-lavender); 
+            color:var(--accent-purple); 
+            padding:5px 15px; 
+            border-radius:20px; 
+            font-weight:500; 
+            font-size:0.9rem;
+            margin-top: 35px; 
+        }
+        
         .hero-buttons { display:flex; gap:1rem; margin-top:1rem; justify-content: center; }
         
         .btn { padding:1rem 2.5rem; border-radius:50px; font-weight:600; font-family:inherit; cursor:pointer; transition:var(--transition); display:inline-block; border:none; text-align:center; }
@@ -100,7 +135,12 @@
         }
         .card-image { position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; background-color: var(--accent-lavender); }
         .card-image img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
-        .visual-card:hover .card-image img { filter: brightness(1.2) contrast(1.1); transform: scale(1.1); }
+        
+        .visual-card:hover .card-image img {
+            filter: brightness(1.2) contrast(1.1);
+            transform: scale(1.1);
+        }
+
         .card-body { padding: 2rem; flex: 1; text-align: left; }
         body.lang-ar .card-body { text-align: right; }
 
@@ -109,40 +149,92 @@
         .timeline-dot { position:absolute; left:-41px; top:15px; width:20px; height:20px; border-radius:50%; background:var(--accent-purple); border:4px solid var(--bg-color); transition:var(--transition); z-index: 2; }
         .timeline-item:hover .timeline-dot { transform:scale(1.3); background: white; border-color: var(--accent-purple); }
         .timeline-date { font-size:0.9rem; color:var(--text-muted); margin-bottom:0.5rem; display:inline-block; background:var(--accent-lavender); padding:4px 12px; border-radius:20px; }
+        
         .edu-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(350px,1fr)); gap:2rem; }
         .edu-card .card-image { height: 160px; width: 100%; }
+        
         .certs-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1.5rem; }
         .cert-card .card-image { width: 100px; flex-shrink: 0; background: var(--accent-lavender); display: flex; align-items: center; justify-content: center; }
 
-        #contact { background: linear-gradient(135deg, var(--accent-lavender) 0%, #ffffff 100%); border-radius:40px; margin-bottom:2rem; padding: 80px 5%; box-shadow: 0 20px 50px rgba(0,0,0,0.05); }
-        body.dark-mode #contact { background: linear-gradient(135deg, #121220 0%, #090a0f 100%); }
+        /* Creative Contact Form Styling */
+        #contact { 
+            background: linear-gradient(135deg, var(--accent-lavender) 0%, #ffffff 100%); 
+            border-radius:40px; margin-bottom:2rem; padding: 80px 5%;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.05);
+        }
+        body.dark-mode #contact {
+            background: linear-gradient(135deg, #121220 0%, #090a0f 100%);
+        }
         .contact-wrapper { display:grid; grid-template-columns:1fr 1fr; gap:4rem; }
         .contact-info { display:flex; flex-direction:column; gap:1.5rem; }
         .contact-card { display:flex; align-items:center; gap:1.5rem; padding:2rem; background:var(--contact-bg); border-radius:20px; border: 1px solid var(--glass-border); transition:var(--transition); text-align: left; }
         body.lang-ar .contact-card { text-align: right; }
         .contact-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(108,99,255,0.15); border-color: var(--accent-purple); }
         .contact-card i { font-size:1.8rem; color:var(--accent-purple); background:var(--accent-lavender); width:60px; height:60px; display:flex; justify-content:center; align-items:center; border-radius:18px; flex-shrink: 0; font-style: normal; }
+        
         .contact-form { display:flex; flex-direction:column; gap:1.5rem; background:var(--contact-bg); padding:3.5rem; border-radius:24px; box-shadow:0 15px 45px rgba(0,0,0,0.08); border: 1px solid var(--glass-border); }
         .form-group { position: relative; }
-        .form-group input, .form-group textarea { width:100%; padding:1.2rem 1.5rem; border:2px solid var(--input-border); border-radius:14px; font-family:inherit; font-size:1.05rem; transition:var(--transition); background:var(--bg-color); color:var(--text-dark); outline: none; }
+        .form-group input, .form-group textarea { 
+            width:100%; padding:1.2rem 1.5rem; border:2px solid var(--input-border); border-radius:14px; 
+            font-family:inherit; font-size:1.05rem; transition:var(--transition); 
+            background:var(--bg-color); color:var(--text-dark); outline: none;
+        }
         .form-group textarea { height:180px; resize:none; }
-        .form-group input:focus, .form-group textarea:focus { border-color:var(--accent-purple); background: white; box-shadow:0 0 0 6px rgba(108,99,255,0.08); transform: translateY(-2px); }
+        .form-group input:focus, .form-group textarea:focus { 
+            border-color:var(--accent-purple); 
+            background: white;
+            box-shadow:0 0 0 6px rgba(108,99,255,0.08); 
+            transform: translateY(-2px);
+        }
         body.dark-mode .form-group input:focus, body.dark-mode .form-group textarea:focus { background: #161625; }
 
+        /* Modern Smaller Footer with Icons */
         footer { background-color:var(--footer-bg); color:var(--footer-text); text-align:center; padding:4rem 5%; }
         .footer-content { display:flex; flex-direction:column; align-items:center; gap:2rem; }
-        .social-links { display:flex; gap:1.2rem; align-items:center; }
-        .footer-link { display: flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgba(255,255,255,0.05); border-radius: 50px; color: #a1a1aa; font-size: 0.8rem; font-family: 'Inter', sans-serif; font-weight: 500; transition: var(--transition); border: 1px solid rgba(255,255,255,0.1); }
-        .footer-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.5; transition: var(--transition); }
-        .footer-link:hover { color: white; background: rgba(108,99,255,0.2); border-color: var(--accent-purple); transform: translateY(-3px); }
-        .footer-link:hover svg { stroke: var(--accent-purple); }
-        #footer-text { font-size: 0.8rem; opacity: 0.6; font-weight: 400; max-width: 400px; line-height: 1.5; }
+        .footer-social-links { display:flex; gap:1.2rem; align-items:center; }
+        
+        .f-link { 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 8px; 
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50px;
+            color: #d1d1d6; 
+            font-size: 0.8rem; 
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            transition: var(--transition);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .f-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.5; transition: var(--transition); }
+        .f-link:hover { 
+            color: white; 
+            background: rgba(108,99,255,0.15); 
+            border-color: var(--accent-purple);
+            transform: translateY(-4px); 
+            box-shadow: 0 4px 15px rgba(108,99,255,0.2);
+        }
+        .f-link:hover svg { stroke: var(--accent-purple); filter: drop-shadow(0 0 4px var(--accent-purple)); }
+        
+        #footer-text { font-size: 0.8rem; opacity: 0.5; font-weight: 400; max-width: 450px; line-height: 1.6; }
         
         .animate-on-scroll { opacity:0; transform:translateY(30px); transition:opacity 0.6s ease,transform 0.6s ease; }
         .animate-on-scroll.visible { opacity:1; transform:translateY(0); }
         
         @media (max-width:1024px) { .contact-wrapper { grid-template-columns:1fr; gap:3rem; } .hero h1 { font-size:3rem; } .contact-form { padding: 2rem; } }
-        @media (max-width:768px) { .menu-toggle { display:flex; } .nav-links { position:absolute; top:100%; left:0; width:100%; background:var(--bg-color); flex-direction:column; padding:2rem 0; box-shadow:0 10px 20px rgba(0,0,0,0.05); clip-path:polygon(0 0,100% 0,100% 0,0 0); transition:clip-path 0.4s ease; } .nav-links.active { clip-path:polygon(0 0,100% 0,100% 100%,0 100%); } .stats-grid { grid-template-columns:1fr; } section { padding:80px 5%; } .hero h1 { font-size:2.5rem; } .visual-card.row { flex-direction: column; } .visual-card.row .card-image { width: 100%; height: 220px; } }
+        @media (max-width:768px) { 
+            .menu-toggle { display:flex; } 
+            .nav-links { position:absolute; top:100%; left:0; width:100%; background:var(--bg-color); flex-direction:column; padding:2rem 0; box-shadow:0 10px 20px rgba(0,0,0,0.05); clip-path:polygon(0 0,100% 0,100% 0,0 0); transition:clip-path 0.4s ease; } 
+            .nav-links.active { clip-path:polygon(0 0,100% 0,100% 100%,0 100%); } 
+            .stats-grid { grid-template-columns:1fr; } 
+            section { padding:80px 5%; } 
+            .hero h1 { font-size:2.5rem; }
+            .visual-card.row { flex-direction: column; }
+            .visual-card.row .card-image { width: 100%; height: 220px; }
+            .footer-social-links { flex-direction: column; width: 100%; }
+            .f-link { width: 80%; justify-content: center; }
+        }
     </style>
 </head>
 <body class="dark-mode">
@@ -215,7 +307,6 @@
             <a href="#" id="contact-li" target="_blank" class="contact-card"><i>🔗</i><div><h4 data-i18n="contact_li_lbl">LinkedIn</h4><p id="li-val">Loading...</p></div></a>
         </div>
         
-        <!-- SUPABASE POWERED CONTACT FORM -->
         <form class="contact-form animate-on-scroll" id="contactForm">
             <div class="form-group">
                 <input type="text" id="form_name" required data-i18n-ph="form_name_ph" placeholder="Your Full Name">
@@ -236,8 +327,10 @@
         <h3 class="logo" style="color:var(--footer-text);justify-content:center;font-size:1.8rem;">
             <span id="footer-name">Youssef Nejjar</span>
         </h3>
-        <div class="social-links" id="footer-social"></div>
-        <p id="footer-text">© 2025 Youssef Nejjar · EFL Teacher & Aspiring Educator</p>
+        
+        <div class="footer-social-links" id="footer-social"></div>
+
+        <p id="footer-text">© 2025 Youssef Nejjar · EFL Teacher & Aspiring Educator. Built with passion for transformative education.</p>
     </div>
 </footer>
 
@@ -286,8 +379,7 @@ async function fetchAll() {
             db.from('education').select('*').order('sort_order'),
             db.from('certifications').select('*').order('sort_order')
         ]);
-        const siteRes = heroRes.data && heroRes.data.length ? heroRes.data[0] : null;
-        siteData.hero = siteRes;
+        siteData.hero = heroRes.data && heroRes.data.length ? heroRes.data[0] : null;
         siteData.experience = expRes.data || [];
         siteData.education = eduRes.data || [];
         siteData.certifications = certsRes.data || [];
@@ -314,26 +406,33 @@ function renderAll() {
         document.getElementById('hero-location').textContent = L(h,'location');
         document.getElementById('hero-bio').textContent = L(h,'bio');
         document.getElementById('hero-bio').className = 'about-text ' + alignClass;
+        
         document.getElementById('stat-exp').textContent = h.years_experience || '4+';
         document.getElementById('stat-lang').textContent = h.stat_languages || '3';
         document.getElementById('stat-certs').textContent = h.stat_certifications || '10+';
+        
         document.getElementById('phone-val').textContent = h.phone || '';
         document.getElementById('email-val').textContent = h.email || '';
         document.getElementById('li-val').textContent = (h.linkedin || '').replace('https://','');
+        
         document.getElementById('contact-phone').href = `tel:${h.phone}`;
         document.getElementById('contact-email').href = `mailto:${h.email}`;
         document.getElementById('contact-li').href = h.linkedin || '#';
+        
         document.getElementById('footer-name').textContent = L(h,'name');
+        
+        // FOOTER REDESIGN
         document.getElementById('footer-social').innerHTML = `
-            <a href="${h.linkedin}" target="_blank" class="footer-link">
+            <a href="${h.linkedin}" target="_blank" class="f-link">
                 <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
                 LinkedIn
             </a>
-            <a href="mailto:${h.email}" class="footer-link">
+            <a href="mailto:${h.email}" class="f-link">
                 <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
                 Email
             </a>
         `;
+        
         let headerName = L(h,'name');
         if (currentLang === 'fr') { headerName = 'يوسف نجار'; }
         document.getElementById('nav-logo-name').textContent = headerName;
@@ -377,15 +476,22 @@ function renderAll() {
 
 function updateLang() {
     document.documentElement.lang = currentLang;
-    if (currentLang === 'ar') { document.body.classList.add('lang-ar'); } else { document.body.classList.remove('lang-ar'); }
+    if (currentLang === 'ar') { 
+        document.body.classList.add('lang-ar'); 
+    } else { 
+        document.body.classList.remove('lang-ar'); 
+    }
+    
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const k = el.getAttribute('data-i18n');
         if (UI[currentLang] && UI[currentLang][k]) el.textContent = UI[currentLang][k];
     });
+
     document.querySelectorAll('[data-i18n-ph]').forEach(el => {
         const k = el.getAttribute('data-i18n-ph');
         if (UI[currentLang] && UI[currentLang][k]) el.placeholder = UI[currentLang][k];
     });
+
     renderAll();
 }
 
@@ -406,14 +512,18 @@ themeToggle.addEventListener('click', () => {
 });
 
 const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); } });
+    entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('visible'); }
+    });
 }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-window.addEventListener('scroll', () => { document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50); });
+window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+});
 document.getElementById('mobileMenu').addEventListener('click', () => document.querySelector('.nav-links').classList.toggle('active'));
 document.querySelectorAll('.nav-link, .lang-btn, .icon-btn').forEach(el => el.addEventListener('click', () => document.querySelector('.nav-links').classList.remove('active')));
 
-// SUPABASE CONTACT FORM SUBMISSION
+// SUPABASE FORM SUBMISSION
 document.getElementById('contactForm').addEventListener('submit', async (e) => { 
     e.preventDefault(); 
     const btn = document.getElementById('submitBtn');
@@ -421,6 +531,7 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
     btn.disabled = true;
     btn.textContent = UI[currentLang].form_sending;
 
+    // Payload keys MUST match your Supabase column names
     const payload = {
         name: document.getElementById('form_name').value,
         email: document.getElementById('form_email').value,
@@ -430,14 +541,16 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
     const { error } = await db.from('messages').insert([payload]);
 
     if (error) {
-        console.error("Supabase error:", error.message);
+        console.error("Supabase Error:", error.message);
         btn.disabled = false;
         btn.textContent = originalText;
+        
+        // Show error notification to user
         const errMsg = document.createElement('div');
-        errMsg.style.cssText = "position:fixed;top:20px;left:50%;transform:translateX(-50%);background:var(--danger);color:white;padding:1rem 2rem;border-radius:50px;z-index:9999;";
+        errMsg.style.cssText = "position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#e24b4a;color:white;padding:1rem 2rem;border-radius:50px;z-index:9999;font-weight:600;";
         errMsg.textContent = "Error: " + error.message;
         document.body.appendChild(errMsg);
-        setTimeout(() => errMsg.remove(), 4000);
+        setTimeout(() => errMsg.remove(), 6000);
     } else {
         const msg = document.createElement('div');
         msg.style.cssText = "position:fixed;top:20px;left:50%;transform:translateX(-50%);background:var(--accent-purple);color:white;padding:1.2rem 2.5rem;border-radius:50px;box-shadow:0 15px 30px rgba(108,99,255,0.4);z-index:9999;font-weight:600;font-family:Inter,sans-serif;";
