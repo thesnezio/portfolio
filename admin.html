@@ -6,7 +6,6 @@
 <title>Admin Panel — Youssef Nejjar</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-  /* ── CONFIG: paste your keys here ── */
   :root {
     --accent: #6C63FF;
     --accent-light: #ede9fe;
@@ -43,7 +42,6 @@
     width: 100%; padding: 0.9rem; background: var(--accent); color: white;
     border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer;
   }
-  .login-box button:hover { opacity: 0.9; }
   #loginError { color: var(--danger); font-size: 0.85rem; margin-top: 0.5rem; display: none; }
 
   /* Sidebar */
@@ -57,7 +55,6 @@
     border-bottom: 1px solid rgba(255,255,255,0.1);
   }
   .logo-circle { width: 36px; height: 36px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem; }
-  .sidebar-logo span { font-weight: 600; font-size: 0.95rem; }
   .sidebar-nav { flex: 1; padding: 1rem 0; }
   .nav-item {
     display: flex; align-items: center; gap: 10px; padding: 0.75rem 1.5rem;
@@ -66,14 +63,11 @@
   }
   .nav-item:hover { background: rgba(255,255,255,0.05); color: white; }
   .nav-item.active { background: rgba(108,99,255,0.2); color: white; border-left-color: var(--accent); }
-  .nav-icon { font-size: 1rem; }
-  .sidebar-footer { padding: 1rem 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); }
   .logout-btn {
     width: 100%; padding: 0.6rem; background: rgba(226,75,74,0.2); color: #f09595;
     border: 1px solid rgba(226,75,74,0.3); border-radius: 8px; cursor: pointer; font-size: 0.85rem;
-    transition: all 0.2s;
+    margin: 1rem;
   }
-  .logout-btn:hover { background: rgba(226,75,74,0.3); }
 
   /* Main */
   #main { margin-left: var(--sidebar-w); flex: 1; display: flex; flex-direction: column; }
@@ -81,9 +75,6 @@
     background: white; padding: 1rem 2rem; border-bottom: 1px solid var(--border);
     display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 10;
   }
-  .topbar h2 { font-size: 1.2rem; font-weight: 600; }
-  .user-badge { background: var(--accent-light); color: var(--accent); padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
-
   .content { padding: 2rem; flex: 1; }
 
   /* Panels */
@@ -93,55 +84,41 @@
   /* Cards */
   .card { background: var(--card); border-radius: 12px; border: 1px solid var(--border); padding: 1.5rem; margin-bottom: 1.5rem; }
   .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
-  .card-header h3 { font-size: 1rem; font-weight: 600; }
 
   /* Form */
   .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-  .form-grid.three { grid-template-columns: 1fr 1fr 1fr; }
-  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
   .form-group.full { grid-column: 1 / -1; }
-  label { font-size: 0.8rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
+  label { font-size: 0.8rem; font-weight: 600; color: var(--muted); text-transform: uppercase; }
   input, textarea, select {
     padding: 0.7rem 0.9rem; border: 1px solid var(--border); border-radius: 8px;
-    font-size: 0.9rem; font-family: inherit; background: var(--bg); color: var(--text);
-    transition: border-color 0.2s; outline: none; resize: vertical;
+    font-size: 0.9rem; background: var(--bg); outline: none;
   }
-  input:focus, textarea:focus, select:focus { border-color: var(--accent); background: white; }
-  textarea { min-height: 80px; }
+  
+  /* Upload Area */
+  .upload-wrapper { display: flex; gap: 0.5rem; }
+  .upload-wrapper input[type="text"] { flex: 1; }
+  .upload-btn-label { 
+    background: var(--accent-light); color: var(--accent); padding: 0.7rem 1rem; 
+    border-radius: 8px; font-size: 0.8rem; font-weight: 600; cursor: pointer;
+  }
+  .upload-btn-label:hover { background: var(--accent); color: white; }
+  input[type="file"] { display: none; }
 
   /* Buttons */
-  .btn { padding: 0.65rem 1.2rem; border-radius: 8px; border: none; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+  .btn { padding: 0.65rem 1.2rem; border-radius: 8px; border: none; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
   .btn-primary { background: var(--accent); color: white; }
-  .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
   .btn-success { background: var(--success); color: white; }
-  .btn-success:hover { opacity: 0.9; }
   .btn-danger { background: transparent; color: var(--danger); border: 1px solid var(--danger); }
-  .btn-danger:hover { background: var(--danger); color: white; }
-  .btn-sm { padding: 0.4rem 0.8rem; font-size: 0.78rem; }
   .btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
-  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
 
-  /* Table / Item list */
-  .item-list { display: flex; flex-direction: column; gap: 0.75rem; }
+  /* List */
   .item-row {
     background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
-    padding: 1rem 1.2rem; display: flex; align-items: flex-start; gap: 1rem;
+    padding: 1rem; display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;
   }
+  .item-row img { width: 50px; height: 50px; border-radius: 8px; object-fit: cover; background: #eee; }
   .item-row-body { flex: 1; }
-  .item-row-body h4 { font-size: 0.95rem; margin-bottom: 0.2rem; }
-  .item-row-body p { font-size: 0.82rem; color: var(--muted); }
-  .item-actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
-
-  /* Toast */
-  #toast {
-    position: fixed; bottom: 2rem; right: 2rem; padding: 0.9rem 1.5rem;
-    border-radius: 10px; font-size: 0.9rem; font-weight: 500; z-index: 9999;
-    transform: translateY(100px); opacity: 0; transition: all 0.3s;
-    display: flex; align-items: center; gap: 8px;
-  }
-  #toast.show { transform: translateY(0); opacity: 1; }
-  #toast.success { background: #1d9e75; color: white; }
-  #toast.error { background: var(--danger); color: white; }
 
   /* Modal */
   .modal-overlay {
@@ -149,178 +126,135 @@
     display: flex; align-items: center; justify-content: center; display: none;
   }
   .modal-overlay.open { display: flex; }
-  .modal {
-    background: white; border-radius: 16px; padding: 2rem; width: 700px; max-width: 95vw;
-    max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.2);
-  }
-  .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; }
-  .modal-header h3 { font-size: 1.1rem; font-weight: 600; }
-  .modal-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--muted); line-height: 1; }
-  .modal-footer { display: flex; gap: 0.75rem; justify-content: flex-end; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border); }
-
+  .modal { background: white; border-radius: 16px; padding: 2rem; width: 600px; max-height: 90vh; overflow-y: auto; }
+  
   .lang-tabs { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
-  .lang-tab { padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: var(--bg); color: var(--muted); transition: all 0.2s; }
+  .lang-tab { padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; cursor: pointer; border: 1px solid var(--border); transition: all 0.2s; }
   .lang-tab.active { background: var(--accent); color: white; border-color: var(--accent); }
 
-  .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
-  .badge-pro { background: #e0f2fe; color: #0c447c; }
-  .badge-soft { background: #ede9fe; color: #534ab7; }
-  .badge-lang { background: #d1fae5; color: #085041; }
-
-  .divider { height: 1px; background: var(--border); margin: 1.5rem 0; }
-  .loading { text-align: center; color: var(--muted); padding: 2rem; }
-
-  @media (max-width: 768px) {
-    #sidebar { width: 60px; }
-    .sidebar-logo span, .nav-item span, .sidebar-footer { display: none; }
-    #main { margin-left: 60px; }
-    .form-grid, .form-grid.three { grid-template-columns: 1fr; }
+  #toast {
+    position: fixed; bottom: 2rem; right: 2rem; padding: 1rem 1.5rem;
+    border-radius: 10px; font-size: 0.9rem; font-weight: 500; z-index: 9999;
+    transform: translateY(100px); opacity: 0; transition: all 0.3s;
   }
+  #toast.show { transform: translateY(0); opacity: 1; }
+  #toast.success { background: var(--success); color: white; }
+  #toast.error { background: var(--danger); color: white; }
 </style>
 </head>
 <body>
 
-<!-- ── LOGIN ── -->
 <div id="loginScreen">
   <div class="login-box">
     <h1>🔐 Admin Panel</h1>
-    <p>Sign in with your Supabase account</p>
-    <input type="email" id="loginEmail" placeholder="Email address" autocomplete="email">
-    <input type="password" id="loginPassword" placeholder="Password" autocomplete="current-password">
+    <p>Sign in to manage your portfolio</p>
+    <input type="email" id="loginEmail" placeholder="Email address">
+    <input type="password" id="loginPassword" placeholder="Password">
     <button onclick="doLogin()">Sign In</button>
     <p id="loginError"></p>
   </div>
 </div>
 
-<!-- ── SIDEBAR ── -->
 <div id="sidebar">
-  <div class="sidebar-logo">
-    <div class="logo-circle">YN</div>
-    <span>Admin</span>
-  </div>
+  <div class="sidebar-logo"><div class="logo-circle">YN</div><span>Admin</span></div>
   <nav class="sidebar-nav">
-    <div class="nav-item active" onclick="showPanel('hero')"><span class="nav-icon">👤</span><span>Hero / Bio</span></div>
-    <div class="nav-item" onclick="showPanel('experience')"><span class="nav-icon">💼</span><span>Experience</span></div>
-    <div class="nav-item" onclick="showPanel('education')"><span class="nav-icon">🎓</span><span>Education</span></div>
-    <div class="nav-item" onclick="showPanel('skills')"><span class="nav-icon">🛠</span><span>Skills</span></div>
-    <div class="nav-item" onclick="showPanel('certifications')"><span class="nav-icon">📜</span><span>Certifications</span></div>
+    <div class="nav-item active" onclick="showPanel('hero')">👤<span>Hero / Bio</span></div>
+    <div class="nav-item" onclick="showPanel('experience')">💼<span>Experience</span></div>
+    <div class="nav-item" onclick="showPanel('education')">🎓<span>Education</span></div>
+    <div class="nav-item" onclick="showPanel('certifications')">📜<span>Certifications</span></div>
   </nav>
-  <div class="sidebar-footer">
-    <button class="logout-btn" onclick="doLogout()">Sign Out</button>
-  </div>
+  <button class="logout-btn" onclick="doLogout()">Sign Out</button>
 </div>
 
-<!-- ── MAIN ── -->
 <div id="main">
-  <div class="topbar">
-    <h2 id="topbarTitle">Hero / Bio</h2>
-    <span class="user-badge" id="userBadge">Loading...</span>
-  </div>
+  <div class="topbar"><h2 id="topbarTitle">Hero / Bio</h2><span class="user-badge" id="userBadge">...</span></div>
   <div class="content">
 
     <!-- HERO PANEL -->
     <div class="panel active" id="panel-hero">
       <div class="card">
-        <div class="card-header"><h3>Profile & Contact</h3><button class="btn btn-success btn-sm" onclick="saveHero()">💾 Save Changes</button></div>
+        <div class="card-header"><h3>Profile Details</h3><button class="btn btn-success" onclick="saveHero()">💾 Save Changes</button></div>
+        
+        <div class="lang-tabs">
+          <span class="lang-tab active" onclick="switchLangTab(this, 'h-lang', 'en')">English</span>
+          <span class="lang-tab" onclick="switchLangTab(this, 'h-lang', 'fr')">French</span>
+          <span class="lang-tab" onclick="switchLangTab(this, 'h-lang', 'ar')">Arabic</span>
+        </div>
+
+        <div id="h-lang-en" class="h-lang-block">
+          <div class="form-grid">
+            <div class="form-group"><label>Name (EN)</label><input id="h_name_en"></div>
+            <div class="form-group"><label>Subtitle (EN)</label><input id="h_subtitle_en"></div>
+            <div class="form-group full"><label>Bio (EN)</label><textarea id="h_bio_en"></textarea></div>
+            <div class="form-group full"><label>Location (EN)</label><input id="h_location_en"></div>
+          </div>
+        </div>
+
+        <div id="h-lang-fr" class="h-lang-block" style="display:none">
+          <div class="form-grid">
+            <div class="form-group"><label>Name (FR)</label><input id="h_name_fr"></div>
+            <div class="form-group"><label>Subtitle (FR)</label><input id="h_subtitle_fr"></div>
+            <div class="form-group full"><label>Bio (FR)</label><textarea id="h_bio_fr"></textarea></div>
+            <div class="form-group full"><label>Location (FR)</label><input id="h_location_fr"></div>
+          </div>
+        </div>
+
+        <div id="h-lang-ar" class="h-lang-block" style="display:none">
+          <div class="form-grid">
+            <div class="form-group"><label>Name (AR)</label><input id="h_name_ar" dir="rtl"></div>
+            <div class="form-group"><label>Subtitle (AR)</label><input id="h_subtitle_ar" dir="rtl"></div>
+            <div class="form-group full"><label>Bio (AR)</label><textarea id="h_bio_ar" dir="rtl"></textarea></div>
+            <div class="form-group full"><label>Location (AR)</label><input id="h_location_ar" dir="rtl"></div>
+          </div>
+        </div>
+
+        <div class="divider" style="height:1px; background:var(--border); margin:1.5rem 0;"></div>
+
         <div class="form-grid">
-          <div class="form-group"><label>Name (EN)</label><input id="h_name_en" type="text"></div>
-          <div class="form-group"><label>Name (FR)</label><input id="h_name_fr" type="text"></div>
-          <div class="form-group full"><label>Name (AR)</label><input id="h_name_ar" type="text" dir="rtl"></div>
-          <div class="form-group"><label>Subtitle (EN)</label><input id="h_subtitle_en" type="text"></div>
-          <div class="form-group"><label>Subtitle (FR)</label><input id="h_subtitle_fr" type="text"></div>
-          <div class="form-group full"><label>Subtitle (AR)</label><input id="h_subtitle_ar" type="text" dir="rtl"></div>
-          <div class="form-group full"><label>Bio (EN)</label><textarea id="h_bio_en"></textarea></div>
-          <div class="form-group full"><label>Bio (FR)</label><textarea id="h_bio_fr"></textarea></div>
-          <div class="form-group full"><label>Bio (AR)</label><textarea id="h_bio_ar" dir="rtl"></textarea></div>
-          <div class="form-group"><label>Location (EN)</label><input id="h_location_en" type="text"></div>
-          <div class="form-group"><label>Location (FR)</label><input id="h_location_fr" type="text"></div>
-          <div class="form-group full"><label>Location (AR)</label><input id="h_location_ar" type="text" dir="rtl"></div>
-        </div>
-        <div class="divider"></div>
-        <div class="form-grid three">
-          <div class="form-group"><label>Photo URL</label><input id="h_photo_url" type="text"></div>
-          <div class="form-group"><label>Phone</label><input id="h_phone" type="text"></div>
-          <div class="form-group"><label>Email</label><input id="h_email" type="email"></div>
-          <div class="form-group"><label>LinkedIn URL</label><input id="h_linkedin" type="text"></div>
-          <div class="form-group"><label>Years Exp. stat</label><input id="h_years_experience" type="text"></div>
-          <div class="form-group"><label>Languages stat</label><input id="h_stat_languages" type="text"></div>
-          <div class="form-group"><label>Certs stat</label><input id="h_stat_certifications" type="text"></div>
+          <div class="form-group full">
+            <label>Profile Image URL</label>
+            <div class="upload-wrapper">
+              <input id="h_photo_url" placeholder="https://...">
+              <label class="upload-btn-label">📁 Upload<input type="file" onchange="uploadImage(this, 'h_photo_url')"></label>
+            </div>
+          </div>
+          <div class="form-group"><label>Phone</label><input id="h_phone"></div>
+          <div class="form-group"><label>Email</label><input id="h_email"></div>
         </div>
       </div>
     </div>
 
-    <!-- EXPERIENCE PANEL -->
+    <!-- LIST PANELS -->
     <div class="panel" id="panel-experience">
-      <div class="card">
-        <div class="card-header">
-          <h3>Experience Timeline</h3>
-          <button class="btn btn-primary btn-sm" onclick="openModal('experience')">+ Add Entry</button>
-        </div>
-        <div class="item-list" id="list-experience"><div class="loading">Loading…</div></div>
-      </div>
+      <div class="card"><div class="card-header"><h3>Experience</h3><button class="btn btn-primary" onclick="openModal('experience')">+ Add</button></div><div id="list-experience"></div></div>
     </div>
-
-    <!-- EDUCATION PANEL -->
     <div class="panel" id="panel-education">
-      <div class="card">
-        <div class="card-header">
-          <h3>Education</h3>
-          <button class="btn btn-primary btn-sm" onclick="openModal('education')">+ Add Entry</button>
-        </div>
-        <div class="item-list" id="list-education"><div class="loading">Loading…</div></div>
-      </div>
+      <div class="card"><div class="card-header"><h3>Education</h3><button class="btn btn-primary" onclick="openModal('education')">+ Add</button></div><div id="list-education"></div></div>
     </div>
-
-    <!-- SKILLS PANEL -->
-    <div class="panel" id="panel-skills">
-      <div class="card">
-        <div class="card-header">
-          <h3>Skills & Languages</h3>
-          <button class="btn btn-primary btn-sm" onclick="openModal('skills')">+ Add Skill</button>
-        </div>
-        <div class="item-list" id="list-skills"><div class="loading">Loading…</div></div>
-      </div>
-    </div>
-
-    <!-- CERTIFICATIONS PANEL -->
     <div class="panel" id="panel-certifications">
-      <div class="card">
-        <div class="card-header">
-          <h3>Certifications & Training</h3>
-          <button class="btn btn-primary btn-sm" onclick="openModal('certifications')">+ Add Cert</button>
-        </div>
-        <div class="item-list" id="list-certifications"><div class="loading">Loading…</div></div>
-      </div>
+      <div class="card"><div class="card-header"><h3>Certifications</h3><button class="btn btn-primary" onclick="openModal('certifications')">+ Add</button></div><div id="list-certifications"></div></div>
     </div>
 
   </div>
 </div>
 
-<!-- ── MODAL ── -->
-<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
   <div class="modal">
-    <div class="modal-header">
-      <h3 id="modalTitle">Add Entry</h3>
-      <button class="modal-close" onclick="closeModal()">×</button>
-    </div>
+    <div class="card-header"><h3 id="modalTitle">Edit</h3><button class="btn-ghost" onclick="closeModal()">✕</button></div>
     <div id="modalBody"></div>
-    <div class="modal-footer">
+    <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:1.5rem;">
       <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-primary" id="modalSaveBtn" onclick="saveModal()">Save</button>
+      <button class="btn btn-primary" onclick="saveModal()">Save</button>
     </div>
   </div>
 </div>
 
-<!-- ── TOAST ── -->
 <div id="toast"></div>
 
 <script>
-// ════════════════════════════════════════
-// ⚠️  PASTE YOUR SUPABASE CREDENTIALS HERE
-// ════════════════════════════════════════
 const SUPABASE_URL = 'https://qqfiuagvlerrsvtifcuo.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_4YWkhBi8PRcsyi947Kdqkg_wQcjgR4g';
-// ════════════════════════════════════════
 
 const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -329,26 +263,20 @@ let currentPanel = 'hero';
 let editingId = null;
 let editingTable = null;
 
-// ── AUTH ──────────────────────────────
 async function init() {
   const { data: { session } } = await db.auth.getSession();
   if (session) showApp(session.user);
 }
 
 async function doLogin() {
-  const email = document.getElementById('loginEmail').value.trim();
-  const pass = document.getElementById('loginPassword').value;
-  const err = document.getElementById('loginError');
-  err.style.display = 'none';
-  const { data, error } = await db.auth.signInWithPassword({ email, password: pass });
-  if (error) { err.textContent = error.message; err.style.display = 'block'; return; }
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+  const { data, error } = await db.auth.signInWithPassword({ email, password });
+  if (error) { document.getElementById('loginError').textContent = error.message; document.getElementById('loginError').style.display='block'; return; }
   showApp(data.user);
 }
 
-async function doLogout() {
-  await db.auth.signOut();
-  location.reload();
-}
+function doLogout() { db.auth.signOut().then(() => location.reload()); }
 
 function showApp(user) {
   document.getElementById('loginScreen').style.display = 'none';
@@ -356,192 +284,210 @@ function showApp(user) {
   loadHero();
 }
 
-// ── PANELS ────────────────────────────
-const panelTitles = { hero:'Hero / Bio', experience:'Experience', education:'Education', skills:'Skills & Languages', certifications:'Certifications' };
-
 function showPanel(name) {
+  currentPanel = name;
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById('panel-' + name).classList.add('active');
-  document.querySelectorAll('.nav-item')[['hero','experience','education','skills','certifications'].indexOf(name)].classList.add('active');
-  document.getElementById('topbarTitle').textContent = panelTitles[name];
-  currentPanel = name;
+  document.getElementById('topbarTitle').textContent = name.charAt(0).toUpperCase() + name.slice(1);
   if (name !== 'hero') loadList(name);
 }
 
-// ── HERO ──────────────────────────────
+function switchLangTab(el, prefix, lang) {
+  const container = el.closest('.modal, .card');
+  container.querySelectorAll('.lang-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  container.querySelectorAll(`[id^="${prefix}-"]`).forEach(b => b.style.display = 'none');
+  const target = container.querySelector(`#${prefix}-${lang}`);
+  if(target) target.style.display = 'block';
+}
+
+async function uploadImage(input, targetId) {
+  const file = input.files[0];
+  if (!file) return;
+  const fileName = `${Date.now()}_${file.name.replace(/\s/g, '_')}`;
+  
+  showToast('Uploading...', 'success');
+  const { data, error } = await db.storage.from('portfolio').upload(fileName, file);
+  
+  if (error) { showToast('Upload failed: ' + error.message, 'error'); return; }
+  
+  const { data: { publicUrl } } = db.storage.from('portfolio').getPublicUrl(fileName);
+  document.getElementById(targetId).value = publicUrl;
+  showToast('Uploaded successfully!', 'success');
+}
+
 async function loadHero() {
-  const { data } = await db.from('hero').select('*').single();
+  const { data } = await db.from('hero').select('*').limit(1).single();
   if (!data) return;
-  const fields = ['name_en','name_fr','name_ar','subtitle_en','subtitle_fr','subtitle_ar','bio_en','bio_fr','bio_ar','location_en','location_fr','location_ar','photo_url','phone','email','linkedin','years_experience','stat_languages','stat_certifications'];
-  fields.forEach(f => { const el = document.getElementById('h_'+f); if (el) el.value = data[f] || ''; });
+  const f = ['name_en','name_fr','name_ar','subtitle_en','subtitle_fr','subtitle_ar','bio_en','bio_fr','bio_ar','location_en','location_fr','location_ar','photo_url','phone','email'];
+  f.forEach(k => { if(document.getElementById('h_'+k)) document.getElementById('h_'+k).value = data[k] || ''; });
 }
 
 async function saveHero() {
-  const fields = ['name_en','name_fr','name_ar','subtitle_en','subtitle_fr','subtitle_ar','bio_en','bio_fr','bio_ar','location_en','location_fr','location_ar','photo_url','phone','email','linkedin','years_experience','stat_languages','stat_certifications'];
-  const payload = { updated_at: new Date().toISOString() };
-  fields.forEach(f => { const el = document.getElementById('h_'+f); if (el) payload[f] = el.value; });
+  const payload = {};
+  const f = ['name_en','name_fr','name_ar','subtitle_en','subtitle_fr','subtitle_ar','bio_en','bio_fr','bio_ar','location_en','location_fr','location_ar','photo_url','phone','email'];
+  f.forEach(k => payload[k] = document.getElementById('h_'+k).value);
   const { error } = await db.from('hero').update(payload).neq('id', '00000000-0000-0000-0000-000000000000');
-  error ? showToast('Error: ' + error.message, 'error') : showToast('Hero section saved!', 'success');
+  error ? showToast(error.message, 'error') : showToast('Saved!', 'success');
 }
 
-// ── LIST VIEWS ────────────────────────
 async function loadList(table) {
   const container = document.getElementById('list-' + table);
-  container.innerHTML = '<div class="loading">Loading…</div>';
-  const { data, error } = await db.from(table).select('*').order('sort_order');
-  if (error) { container.innerHTML = '<div class="loading">Error loading data.</div>'; return; }
-  if (!data.length) { container.innerHTML = '<div class="loading">No entries yet. Add one!</div>'; return; }
-  container.innerHTML = data.map(row => renderRow(table, row)).join('');
+  container.innerHTML = 'Loading...';
+  const { data } = await db.from(table).select('*').order('sort_order');
+  container.innerHTML = data.map(row => `
+    <div class="item-row">
+      <img src="${row.image_url || row.photo_url || ''}">
+      <div class="item-row-body">
+        <strong>${row.title_en || row.degree_en}</strong><br>
+        <small>${row.org_en || ''}</small>
+      </div>
+      <button class="btn btn-ghost" onclick="openModal('${table}', '${row.id}')">Edit</button>
+      <button class="btn btn-danger" onclick="deleteRow('${table}', '${row.id}')">Delete</button>
+    </div>`).join('');
 }
 
-function renderRow(table, row) {
-  let title = '', subtitle = '';
-  if (table === 'experience') { title = row.title_en; subtitle = `${row.org_en} · ${row.date_en}`; }
-  if (table === 'education')  { title = row.degree_en; subtitle = `${row.org_en} · ${row.date_en}`; }
-  if (table === 'skills')     {
-    const badge = { professional: '<span class="badge badge-pro">Pro</span>', soft: '<span class="badge badge-soft">Soft</span>', language: '<span class="badge badge-lang">Language</span>' }[row.category] || '';
-    title = row.label_en + ' ' + badge;
-    subtitle = row.proficiency != null ? `Proficiency: ${row.proficiency}%` : '';
-  }
-  if (table === 'certifications') { title = `${row.icon} ${row.title_en}`; subtitle = row.org_en; }
-  return `<div class="item-row">
-    <div class="item-row-body"><h4>${title}</h4><p>${subtitle}</p></div>
-    <div class="item-actions">
-      <button class="btn btn-ghost btn-sm" onclick="openModal('${table}', '${row.id}')">✏️ Edit</button>
-      <button class="btn btn-danger btn-sm" onclick="deleteRow('${table}','${row.id}')">🗑</button>
-    </div>
-  </div>`;
-}
-
-// ── MODAL ─────────────────────────────
 const modalForms = {
   experience: (d={}) => `
-    <div class="lang-tabs"><span class="lang-tab active" onclick="switchLangTab(this,'exp','en')">EN</span><span class="lang-tab" onclick="switchLangTab(this,'exp','fr')">FR</span><span class="lang-tab" onclick="switchLangTab(this,'exp','ar')">AR</span></div>
-    <div id="exp-en" class="lang-block">
-      <div class="form-grid"><div class="form-group"><label>Date (EN)</label><input id="m_date_en" value="${d.date_en||''}"></div><div class="form-group"><label>Title (EN)</label><input id="m_title_en" value="${d.title_en||''}"></div><div class="form-group full"><label>Organization (EN)</label><input id="m_org_en" value="${d.org_en||''}"></div><div class="form-group full"><label>Description (EN)</label><textarea id="m_desc_en">${d.desc_en||''}</textarea></div></div>
+    <div class="form-group"><label>Image URL</label>
+      <div class="upload-wrapper"><input id="m_image_url" value="${d.image_url||''}"><label class="upload-btn-label">📁<input type="file" onchange="uploadImage(this,'m_image_url')"></label></div>
     </div>
-    <div id="exp-fr" class="lang-block" style="display:none">
-      <div class="form-grid"><div class="form-group"><label>Date (FR)</label><input id="m_date_fr" value="${d.date_fr||''}"></div><div class="form-group"><label>Title (FR)</label><input id="m_title_fr" value="${d.title_fr||''}"></div><div class="form-group full"><label>Organization (FR)</label><input id="m_org_fr" value="${d.org_fr||''}"></div><div class="form-group full"><label>Description (FR)</label><textarea id="m_desc_fr">${d.desc_fr||''}</textarea></div></div>
+    <div class="lang-tabs">
+      <span class="lang-tab active" onclick="switchLangTab(this, 'm-lang', 'en')">EN</span>
+      <span class="lang-tab" onclick="switchLangTab(this, 'm-lang', 'fr')">FR</span>
+      <span class="lang-tab" onclick="switchLangTab(this, 'm-lang', 'ar')">AR</span>
     </div>
-    <div id="exp-ar" class="lang-block" style="display:none">
-      <div class="form-grid"><div class="form-group"><label>Date (AR)</label><input id="m_date_ar" value="${d.date_ar||''}" dir="rtl"></div><div class="form-group"><label>Title (AR)</label><input id="m_title_ar" value="${d.title_ar||''}" dir="rtl"></div><div class="form-group full"><label>Organization (AR)</label><input id="m_org_ar" value="${d.org_ar||''}" dir="rtl"></div><div class="form-group full"><label>Description (AR)</label><textarea id="m_desc_ar" dir="rtl">${d.desc_ar||''}</textarea></div></div>
-    </div>
-    <div class="form-group" style="margin-top:1rem"><label>Sort Order</label><input id="m_sort_order" type="number" value="${d.sort_order||0}" style="width:100px"></div>`,
-
-  education: (d={}) => `
-    <div class="lang-tabs"><span class="lang-tab active" onclick="switchLangTab(this,'edu','en')">EN</span><span class="lang-tab" onclick="switchLangTab(this,'edu','fr')">FR</span><span class="lang-tab" onclick="switchLangTab(this,'edu','ar')">AR</span></div>
-    <div id="edu-en" class="lang-block">
-      <div class="form-grid"><div class="form-group full"><label>Degree (EN)</label><input id="m_degree_en" value="${d.degree_en||''}"></div><div class="form-group full"><label>Organization (EN)</label><input id="m_org_en" value="${d.org_en||''}"></div><div class="form-group"><label>Date (EN)</label><input id="m_date_en" value="${d.date_en||''}"></div></div>
-    </div>
-    <div id="edu-fr" class="lang-block" style="display:none">
-      <div class="form-grid"><div class="form-group full"><label>Degree (FR)</label><input id="m_degree_fr" value="${d.degree_fr||''}"></div><div class="form-group full"><label>Organization (FR)</label><input id="m_org_fr" value="${d.org_fr||''}"></div><div class="form-group"><label>Date (FR)</label><input id="m_date_fr" value="${d.date_fr||''}"></div></div>
-    </div>
-    <div id="edu-ar" class="lang-block" style="display:none">
-      <div class="form-grid"><div class="form-group full"><label>Degree (AR)</label><input id="m_degree_ar" value="${d.degree_ar||''}" dir="rtl"></div><div class="form-group full"><label>Organization (AR)</label><input id="m_org_ar" value="${d.org_ar||''}" dir="rtl"></div><div class="form-group"><label>Date (AR)</label><input id="m_date_ar" value="${d.date_ar||''}" dir="rtl"></div></div>
-    </div>
-    <div class="form-group" style="margin-top:1rem"><label>Sort Order</label><input id="m_sort_order" type="number" value="${d.sort_order||0}" style="width:100px"></div>`,
-
-  skills: (d={}) => `
-    <div class="form-grid">
-      <div class="form-group"><label>Category</label>
-        <select id="m_category">
-          <option value="professional" ${d.category==='professional'?'selected':''}>Professional</option>
-          <option value="soft" ${d.category==='soft'?'selected':''}>Soft</option>
-          <option value="language" ${d.category==='language'?'selected':''}>Language</option>
-        </select>
+    <div id="m-lang-en">
+      <div class="form-grid">
+        <div class="form-group"><label>Title (EN)</label><input id="m_title_en" value="${d.title_en||''}"></div>
+        <div class="form-group"><label>Org (EN)</label><input id="m_org_en" value="${d.org_en||''}"></div>
+        <div class="form-group"><label>Date (EN)</label><input id="m_date_en" value="${d.date_en||''}"></div>
+        <div class="form-group full"><label>Desc (EN)</label><textarea id="m_desc_en">${d.desc_en||''}</textarea></div>
       </div>
-      <div class="form-group"><label>Proficiency % (language only)</label><input id="m_proficiency" type="number" min="0" max="100" value="${d.proficiency!=null?d.proficiency:''}"></div>
-      <div class="form-group"><label>Label (EN)</label><input id="m_label_en" value="${d.label_en||''}"></div>
-      <div class="form-group"><label>Label (FR)</label><input id="m_label_fr" value="${d.label_fr||''}"></div>
-      <div class="form-group full"><label>Label (AR)</label><input id="m_label_ar" value="${d.label_ar||''}" dir="rtl"></div>
-      <div class="form-group"><label>Sort Order</label><input id="m_sort_order" type="number" value="${d.sort_order||0}" style="width:100px"></div>
-    </div>`,
+    </div>
+    <div id="m-lang-fr" style="display:none">
+      <div class="form-grid">
+        <div class="form-group"><label>Title (FR)</label><input id="m_title_fr" value="${d.title_fr||''}"></div>
+        <div class="form-group"><label>Org (FR)</label><input id="m_org_fr" value="${d.org_fr||''}"></div>
+        <div class="form-group"><label>Date (FR)</label><input id="m_date_fr" value="${d.date_fr||''}"></div>
+        <div class="form-group full"><label>Desc (FR)</label><textarea id="m_desc_fr">${d.desc_fr||''}</textarea></div>
+      </div>
+    </div>
+    <div id="m-lang-ar" style="display:none">
+      <div class="form-grid">
+        <div class="form-group"><label>Title (AR)</label><input id="m_title_ar" value="${d.title_ar||''}" dir="rtl"></div>
+        <div class="form-group"><label>Org (AR)</label><input id="m_org_ar" value="${d.org_ar||''}" dir="rtl"></div>
+        <div class="form-group"><label>Date (AR)</label><input id="m_date_ar" value="${d.date_ar||''}" dir="rtl"></div>
+        <div class="form-group full"><label>Desc (AR)</label><textarea id="m_desc_ar" dir="rtl">${d.desc_ar||''}</textarea></div>
+      </div>
+    </div>
+    <div class="form-group"><label>Order</label><input type="number" id="m_sort_order" value="${d.sort_order||0}"></div>`,
+    
+  education: (d={}) => `
+    <div class="form-group"><label>Image URL</label>
+      <div class="upload-wrapper"><input id="m_image_url" value="${d.image_url||''}"><label class="upload-btn-label">📁<input type="file" onchange="uploadImage(this,'m_image_url')"></label></div>
+    </div>
+    <div class="lang-tabs">
+      <span class="lang-tab active" onclick="switchLangTab(this, 'm-lang', 'en')">EN</span>
+      <span class="lang-tab" onclick="switchLangTab(this, 'm-lang', 'fr')">FR</span>
+      <span class="lang-tab" onclick="switchLangTab(this, 'm-lang', 'ar')">AR</span>
+    </div>
+    <div id="m-lang-en">
+      <div class="form-grid">
+        <div class="form-group"><label>Degree (EN)</label><input id="m_degree_en" value="${d.degree_en||''}"></div>
+        <div class="form-group"><label>Org (EN)</label><input id="m_org_en" value="${d.org_en||''}"></div>
+        <div class="form-group"><label>Date (EN)</label><input id="m_date_en" value="${d.date_en||''}"></div>
+      </div>
+    </div>
+    <div id="m-lang-fr" style="display:none">
+      <div class="form-grid">
+        <div class="form-group"><label>Degree (FR)</label><input id="m_degree_fr" value="${d.degree_fr||''}"></div>
+        <div class="form-group"><label>Org (FR)</label><input id="m_org_fr" value="${d.org_fr||''}"></div>
+        <div class="form-group"><label>Date (FR)</label><input id="m_date_fr" value="${d.date_fr||''}"></div>
+      </div>
+    </div>
+    <div id="m-lang-ar" style="display:none">
+      <div class="form-grid">
+        <div class="form-group"><label>Degree (AR)</label><input id="m_degree_ar" value="${d.degree_ar||''}" dir="rtl"></div>
+        <div class="form-group"><label>Org (AR)</label><input id="m_org_ar" value="${d.org_ar||''}" dir="rtl"></div>
+        <div class="form-group"><label>Date (AR)</label><input id="m_date_ar" value="${d.date_ar||''}" dir="rtl"></div>
+      </div>
+    </div>
+    <div class="form-group"><label>Order</label><input type="number" id="m_sort_order" value="${d.sort_order||0}"></div>`,
 
   certifications: (d={}) => `
-    <div class="lang-tabs"><span class="lang-tab active" onclick="switchLangTab(this,'cert','en')">EN</span><span class="lang-tab" onclick="switchLangTab(this,'cert','fr')">FR</span><span class="lang-tab" onclick="switchLangTab(this,'cert','ar')">AR</span></div>
-    <div id="cert-en" class="lang-block">
-      <div class="form-grid"><div class="form-group"><label>Icon (emoji)</label><input id="m_icon" value="${d.icon||'🎓'}" style="width:80px"></div><div class="form-group"><label>Title (EN)</label><input id="m_title_en" value="${d.title_en||''}"></div><div class="form-group full"><label>Organization (EN)</label><input id="m_org_en" value="${d.org_en||''}"></div></div>
+    <div class="form-group"><label>Certificate Image/Icon</label>
+      <div class="upload-wrapper"><input id="m_image_url" value="${d.image_url||''}"><label class="upload-btn-label">📁<input type="file" onchange="uploadImage(this,'m_image_url')"></label></div>
     </div>
-    <div id="cert-fr" class="lang-block" style="display:none">
-      <div class="form-grid"><div class="form-group full"><label>Title (FR)</label><input id="m_title_fr" value="${d.title_fr||''}"></div><div class="form-group full"><label>Organization (FR)</label><input id="m_org_fr" value="${d.org_fr||''}"></div></div>
+    <div class="lang-tabs">
+      <span class="lang-tab active" onclick="switchLangTab(this, 'm-lang', 'en')">EN</span>
+      <span class="lang-tab" onclick="switchLangTab(this, 'm-lang', 'fr')">FR</span>
+      <span class="lang-tab" onclick="switchLangTab(this, 'm-lang', 'ar')">AR</span>
     </div>
-    <div id="cert-ar" class="lang-block" style="display:none">
-      <div class="form-grid"><div class="form-group full"><label>Title (AR)</label><input id="m_title_ar" value="${d.title_ar||''}" dir="rtl"></div><div class="form-group full"><label>Organization (AR)</label><input id="m_org_ar" value="${d.org_ar||''}" dir="rtl"></div></div>
+    <div id="m-lang-en">
+      <div class="form-grid">
+        <div class="form-group"><label>Title (EN)</label><input id="m_title_en" value="${d.title_en||''}"></div>
+        <div class="form-group"><label>Org (EN)</label><input id="m_org_en" value="${d.org_en||''}"></div>
+      </div>
     </div>
-    <div class="form-group" style="margin-top:1rem"><label>Sort Order</label><input id="m_sort_order" type="number" value="${d.sort_order||0}" style="width:100px"></div>`
+    <div id="m-lang-fr" style="display:none">
+      <div class="form-grid">
+        <div class="form-group"><label>Title (FR)</label><input id="m_title_fr" value="${d.title_fr||''}"></div>
+        <div class="form-group"><label>Org (FR)</label><input id="m_org_fr" value="${d.org_fr||''}"></div>
+      </div>
+    </div>
+    <div id="m-lang-ar" style="display:none">
+      <div class="form-grid">
+        <div class="form-group"><label>Title (AR)</label><input id="m_title_ar" value="${d.title_ar||''}" dir="rtl"></div>
+        <div class="form-group"><label>Org (AR)</label><input id="m_org_ar" value="${d.org_ar||''}" dir="rtl"></div>
+      </div>
+    </div>
+    <div class="form-group"><label>Icon (Emoji)</label><input id="m_icon" value="${d.icon||'📜'}"></div>
+    <div class="form-group"><label>Order</label><input type="number" id="m_sort_order" value="${d.sort_order||0}"></div>`
 };
 
-function switchLangTab(el, prefix, lang) {
-  el.closest('.modal, .card').querySelectorAll('.lang-tab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  document.querySelectorAll(`[id^="${prefix}-"]`).forEach(b => b.style.display = 'none');
-  document.getElementById(`${prefix}-${lang}`).style.display = '';
-}
-
-async function openModal(table, id = null) {
-  editingTable = table;
-  editingId = id;
-  const titles = { experience:'Experience Entry', education:'Education Entry', skills:'Skill', certifications:'Certification' };
-  document.getElementById('modalTitle').textContent = (id ? 'Edit ' : 'Add ') + titles[table];
-
+async function openModal(table, id=null) {
+  editingId = id; editingTable = table;
+  document.getElementById('modalTitle').textContent = (id ? 'Edit ' : 'Add ') + table;
   let data = {};
-  if (id) {
-    const { data: row } = await db.from(table).select('*').eq('id', id).single();
-    data = row || {};
-  }
+  if (id) { const { data: row } = await db.from(table).select('*').eq('id', id).single(); data = row; }
   document.getElementById('modalBody').innerHTML = modalForms[table](data);
   document.getElementById('modalOverlay').classList.add('open');
 }
 
-function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); editingId = null; editingTable = null; }
-function closeModalOutside(e) { if (e.target === document.getElementById('modalOverlay')) closeModal(); }
-
-function getVal(id) { const el = document.getElementById(id); return el ? el.value : undefined; }
+function closeModal() { document.getElementById('modalOverlay').classList.remove('open'); }
 
 async function saveModal() {
   const t = editingTable;
-  let payload = { sort_order: parseInt(getVal('m_sort_order')) || 0 };
+  const payload = { sort_order: parseInt(document.getElementById('m_sort_order').value) || 0 };
+  
+  const getVal = id => document.getElementById(id) ? document.getElementById(id).value : null;
 
   if (t === 'experience') {
-    Object.assign(payload, { date_en:getVal('m_date_en'), date_fr:getVal('m_date_fr'), date_ar:getVal('m_date_ar'), title_en:getVal('m_title_en'), title_fr:getVal('m_title_fr'), title_ar:getVal('m_title_ar'), org_en:getVal('m_org_en'), org_fr:getVal('m_org_fr'), org_ar:getVal('m_org_ar'), desc_en:getVal('m_desc_en'), desc_fr:getVal('m_desc_fr'), desc_ar:getVal('m_desc_ar') });
+    ['title_en','title_fr','title_ar','org_en','org_fr','org_ar','date_en','date_fr','date_ar','desc_en','desc_fr','desc_ar','image_url'].forEach(k => payload[k] = getVal('m_'+k));
   } else if (t === 'education') {
-    Object.assign(payload, { degree_en:getVal('m_degree_en'), degree_fr:getVal('m_degree_fr'), degree_ar:getVal('m_degree_ar'), org_en:getVal('m_org_en'), org_fr:getVal('m_org_fr'), org_ar:getVal('m_org_ar'), date_en:getVal('m_date_en'), date_fr:getVal('m_date_fr'), date_ar:getVal('m_date_ar') });
-  } else if (t === 'skills') {
-    const prof = getVal('m_proficiency');
-    Object.assign(payload, { category:getVal('m_category'), label_en:getVal('m_label_en'), label_fr:getVal('m_label_fr'), label_ar:getVal('m_label_ar'), proficiency: prof !== '' ? parseInt(prof) : null });
+    ['degree_en','degree_fr','degree_ar','org_en','org_fr','org_ar','date_en','date_fr','date_ar','image_url'].forEach(k => payload[k] = getVal('m_'+k));
   } else if (t === 'certifications') {
-    Object.assign(payload, { icon:getVal('m_icon'), title_en:getVal('m_title_en'), title_fr:getVal('m_title_fr'), title_ar:getVal('m_title_ar'), org_en:getVal('m_org_en'), org_fr:getVal('m_org_fr'), org_ar:getVal('m_org_ar') });
+    ['title_en','title_fr','title_ar','org_en','org_fr','org_ar','icon','image_url'].forEach(k => payload[k] = getVal('m_'+k));
   }
 
-  let error;
-  if (editingId) {
-    ({ error } = await db.from(t).update(payload).eq('id', editingId));
-  } else {
-    ({ error } = await db.from(t).insert([payload]));
-  }
-
-  if (error) { showToast('Error: ' + error.message, 'error'); return; }
-  showToast('Saved successfully!', 'success');
-  closeModal();
-  loadList(t);
+  const { error } = editingId ? await db.from(t).update(payload).eq('id', editingId) : await db.from(t).insert([payload]);
+  if (error) { showToast(error.message, 'error'); return; }
+  showToast('Saved!', 'success'); closeModal(); loadList(t);
 }
 
 async function deleteRow(table, id) {
-  if (!confirm('Delete this entry?')) return;
-  const { error } = await db.from(table).delete().eq('id', id);
-  error ? showToast('Error: ' + error.message, 'error') : (showToast('Deleted.', 'success'), loadList(table));
+  if (!confirm('Delete?')) return;
+  await db.from(table).delete().eq('id', id);
+  loadList(table);
 }
 
-// ── TOAST ─────────────────────────────
-function showToast(msg, type = 'success') {
-  const t = document.getElementById('toast');
-  t.textContent = (type === 'success' ? '✅ ' : '❌ ') + msg;
-  t.className = 'show ' + type;
-  setTimeout(() => { t.className = ''; }, 3500);
+function showToast(m, type) {
+  const t = document.getElementById('toast'); t.textContent = m; t.className = 'show ' + type;
+  setTimeout(() => t.className = '', 3000);
 }
 
-// ── BOOT ──────────────────────────────
 init();
 </script>
 </body>
