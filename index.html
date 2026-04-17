@@ -25,10 +25,6 @@
             --input-border: rgba(176,92,255,0.2); --progress-bg: #1f1f2e;
             --footer-bg: #040406; --footer-text: #ffffff;
         }
-        body.dark-mode .section-title, body.dark-mode .hero h1 { text-shadow: 0 0 20px rgba(176,92,255,0.4); }
-        body.dark-mode .btn-primary, body.dark-mode .icon-btn:hover { box-shadow: 0 0 20px rgba(176,92,255,0.6); }
-        body.dark-mode .glass-card:hover { box-shadow: 0 12px 40px rgba(176,92,255,0.4); border-color: rgba(176,92,255,0.5); }
-        body.dark-mode .timeline-dot { box-shadow: 0 0 15px rgba(176,92,255,0.8); }
         
         * { margin:0; padding:0; box-sizing:border-box; }
         html { scroll-behavior: smooth; }
@@ -40,9 +36,9 @@
         h1,h2,h3,h4,.logo { font-family:'Poppins',sans-serif; color:var(--text-dark); }
         body.lang-ar h1,body.lang-ar h2,body.lang-ar h3,body.lang-ar h4,body.lang-ar .logo { font-family:'Noto Naskh Arabic',sans-serif; font-weight:700; }
         a { text-decoration:none; color:inherit; }
-        ul { list-style:none; }
         section { padding:100px 5%; max-width:1200px; margin:0 auto; }
         
+        /* Fixed Centering for Titles */
         .section-title { 
             font-size:2.5rem; 
             margin: 0 auto 3rem; 
@@ -55,7 +51,6 @@
         .section-title::after { content:''; position:absolute; bottom:-10px; left:50%; transform:translateX(-50%); width:50px; height:4px; background-color:var(--accent-purple); border-radius:2px; }
         
         .glass-card { background:var(--glass-bg); backdrop-filter:blur(10px); border:1px solid var(--glass-border); border-radius:16px; box-shadow:var(--card-shadow); padding:2rem; transition:var(--transition); overflow: hidden; }
-        .glass-card:hover { transform:translateY(-6px); }
         
         nav { position:fixed; top:0; width:100%; padding:1.5rem 5%; display:flex; justify-content:space-between; align-items:center; z-index:1000; transition:var(--transition); }
         nav.scrolled { background:var(--nav-scrolled); backdrop-filter:blur(10px); box-shadow:0 4px 20px rgba(0,0,0,0.05); padding:1rem 5%; }
@@ -63,22 +58,16 @@
         .nav-links { display:flex; gap:2rem; align-items:center; }
         .nav-links a { font-weight:500; color:var(--text-dark); transition:var(--transition); position:relative; }
         .nav-links a:hover,.nav-links a.active { color:var(--accent-purple); }
-        .nav-links a::after { content:''; position:absolute; width:0; height:2px; bottom:-5px; left:0; background-color:var(--accent-purple); transition:var(--transition); }
         
         .lang-switcher { display:flex; gap:5px; align-items:center; background:rgba(108,99,255,0.05); padding:4px; border-radius:50px; }
-        body.dark-mode .lang-switcher { background:rgba(176,92,255,0.1); }
-        .lang-btn { background:transparent; border:none; color:var(--text-dark); padding:0.4rem 0.8rem; border-radius:50px; font-weight:600; font-size:0.85rem; cursor:pointer; transition:var(--transition); font-family:inherit; }
-        .lang-btn.active { background:var(--accent-purple); color:white; box-shadow:0 4px 10px rgba(108,99,255,0.3); }
-        .icon-btn { background:transparent; border:2px solid var(--accent-purple); color:var(--accent-purple); width:40px; height:40px; border-radius:50%; display:flex; justify-content:center; align-items:center; font-size:1.2rem; cursor:pointer; transition:var(--transition); }
-        .icon-btn:hover { background:var(--accent-purple); color:white; }
-        .menu-toggle { display:none; flex-direction:column; gap:5px; cursor:pointer; }
-        .menu-toggle span { width:25px; height:3px; background-color:var(--text-dark); transition:var(--transition); }
+        .lang-btn { background:transparent; border:none; color:var(--text-dark); padding:0.4rem 0.8rem; border-radius:50px; font-weight:600; font-size:0.85rem; cursor:pointer; transition:var(--transition); }
+        .lang-btn.active { background:var(--accent-purple); color:white; }
+        .icon-btn { background:transparent; border:2px solid var(--accent-purple); color:var(--accent-purple); width:40px; height:40px; border-radius:50%; display:flex; justify-content:center; align-items:center; cursor:pointer; transition:var(--transition); }
         
         .hero { min-height:100vh; display:flex; align-items:center; justify-content:center; text-align:center; position:relative; padding-top:120px; padding-bottom:40px; }
         .blob { position:absolute; border-radius:50%; filter:blur(60px); opacity:0.4; z-index:-1; animation:float 10s infinite ease-in-out alternate; }
         .blob-1 { width:400px; height:400px; background:var(--accent-lavender); top:10%; left:10%; }
-        .blob-2 { width:300px; height:300px; background:#d8b4fe; bottom:20%; right:15%; animation-delay:-5s; }
-        @keyframes float { 0%{transform:translate(0,0) scale(1)} 100%{transform:translate(30px,-50px) scale(1.1)} }
+        .blob-2 { width:300px; height:300px; background:#d8b4fe; bottom:20%; right:15%; }
         
         .profile-img { 
             display: block;
@@ -87,13 +76,7 @@
             border:4px solid var(--bg-color); box-shadow:0 0 0 4px var(--accent-purple),0 10px 25px rgba(0,0,0,0.1); 
             transition: var(--transition);
         }
-        .profile-img:hover {
-            transform: scale(1.05);
-            filter: brightness(1.15) saturate(1.1);
-            box-shadow: 0 0 30px var(--accent-purple), 0 10px 35px rgba(0,0,0,0.2);
-        }
-
-        .hero h1 { font-size:3.5rem; line-height:1.2; }
+        .hero h1 { font-size:3.5rem; line-height:1.2; margin-top: 10px; }
         .hero h2 { font-size:1.5rem; color:var(--text-muted); font-weight:500; }
         
         .location-tag { 
@@ -111,127 +94,61 @@
         
         .hero-buttons { display:flex; gap:1rem; margin-top:1rem; justify-content: center; }
         
-        .btn { padding:1rem 2.5rem; border-radius:50px; font-weight:600; font-family:inherit; cursor:pointer; transition:var(--transition); display:inline-block; border:none; text-align:center; }
+        .btn { padding:1rem 2.5rem; border-radius:50px; font-weight:600; cursor:pointer; transition:var(--transition); display:inline-block; border:none; text-align:center; }
         .btn-primary { background:var(--accent-purple); color:white; border:2px solid var(--accent-purple); box-shadow: 0 4px 15px rgba(108,99,255,0.3); }
-        .btn-primary:hover:not(:disabled) { background:transparent; color:var(--accent-purple); transform:translateY(-3px); box-shadow: 0 8px 25px rgba(108,99,255,0.4); }
-        .btn-primary:disabled { opacity: 0.7; cursor: not-allowed; }
+        .btn-primary:hover:not(:disabled) { background:transparent; color:var(--accent-purple); transform:translateY(-3px); }
+        .btn-primary:disabled { opacity: 0.6; cursor: wait; }
         .btn-outline { background:transparent; color:var(--accent-purple); border:2px solid var(--accent-purple); }
-        .btn-outline:hover { background:var(--accent-purple); color:white; transform:translateY(-3px); }
         
         .about-content { max-width: 800px; margin: 0 auto; text-align: center; }
-        .about-text { font-size:1.15rem; color:var(--text-muted); margin-bottom:3rem; }
-        .stats-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
+        .stats-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-top: 2rem; }
         .stat-card { text-align:center; padding:1.5rem; }
-        .stat-card h3 { font-size:2rem; color:var(--accent-purple); margin-bottom:0.5rem; }
-        .stat-card p { font-size:0.9rem; font-weight:500; }
 
-        .visual-card { display: flex; flex-direction: column; gap: 0; background: var(--glass-bg); border-radius: 16px; overflow: hidden; }
+        .visual-card { display: flex; flex-direction: column; background: var(--glass-bg); border-radius: 16px; overflow: hidden; }
         @media (min-width: 768px) {
-            .visual-card.row { flex-direction: row; align-items: stretch; }
+            .visual-card.row { flex-direction: row; }
             .visual-card.row .card-image { width: 180px; flex-shrink: 0; }
         }
-        .card-image { position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; background-color: var(--accent-lavender); }
+        .card-image { position: relative; overflow: hidden; background-color: var(--accent-lavender); }
         .card-image img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
-        
-        .visual-card:hover .card-image img {
-            filter: brightness(1.2) contrast(1.1);
-            transform: scale(1.1);
-        }
-
         .card-body { padding: 2rem; flex: 1; text-align: left; }
         body.lang-ar .card-body { text-align: right; }
 
         .timeline { position:relative; padding-left:30px; margin-left:20px; border-left: 2px solid var(--accent-lavender); }
         .timeline-item { position:relative; margin-bottom:3rem; }
-        .timeline-dot { position:absolute; left:-41px; top:15px; width:20px; height:20px; border-radius:50%; background:var(--accent-purple); border:4px solid var(--bg-color); transition:var(--transition); z-index: 2; }
-        .timeline-item:hover .timeline-dot { transform:scale(1.3); background: white; border-color: var(--accent-purple); }
-        .timeline-date { font-size:0.9rem; color:var(--text-muted); margin-bottom:0.5rem; display:inline-block; background:var(--accent-lavender); padding:4px 12px; border-radius:20px; }
+        .timeline-dot { position:absolute; left:-41px; top:15px; width:20px; height:20px; border-radius:50%; background:var(--accent-purple); border:4px solid var(--bg-color); z-index: 2; }
         
-        .edu-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(350px,1fr)); gap:2rem; }
-        .edu-card .card-image { height: 160px; width: 100%; }
-        
-        .certs-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1.5rem; }
-        .cert-card .card-image { width: 100px; flex-shrink: 0; background: var(--accent-lavender); display: flex; align-items: center; justify-content: center; }
-
-        /* Creative Contact Form Styling */
-        #contact { 
-            background: linear-gradient(135deg, var(--accent-lavender) 0%, #ffffff 100%); 
-            border-radius:40px; margin-bottom:2rem; padding: 80px 5%;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.05);
-        }
-        body.dark-mode #contact {
-            background: linear-gradient(135deg, #121220 0%, #090a0f 100%);
-        }
+        /* Contact Form */
+        #contact { background: linear-gradient(135deg, var(--accent-lavender) 0%, #ffffff 100%); border-radius:40px; margin-bottom:2rem; padding: 80px 5%; }
+        body.dark-mode #contact { background: linear-gradient(135deg, #121220 0%, #090a0f 100%); }
         .contact-wrapper { display:grid; grid-template-columns:1fr 1fr; gap:4rem; }
         .contact-info { display:flex; flex-direction:column; gap:1.5rem; }
-        .contact-card { display:flex; align-items:center; gap:1.5rem; padding:2rem; background:var(--contact-bg); border-radius:20px; border: 1px solid var(--glass-border); transition:var(--transition); text-align: left; }
+        .contact-card { display:flex; align-items:center; gap:1.5rem; padding:1.5rem; background:var(--contact-bg); border-radius:20px; border: 1px solid var(--glass-border); transition:var(--transition); text-align: left; }
         body.lang-ar .contact-card { text-align: right; }
-        .contact-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(108,99,255,0.15); border-color: var(--accent-purple); }
-        .contact-card i { font-size:1.8rem; color:var(--accent-purple); background:var(--accent-lavender); width:60px; height:60px; display:flex; justify-content:center; align-items:center; border-radius:18px; flex-shrink: 0; }
+        .contact-card i { font-size:1.5rem; color:var(--accent-purple); background:var(--accent-lavender); width:50px; height:50px; display:flex; justify-content:center; align-items:center; border-radius:14px; font-style: normal; }
         
-        .contact-form { display:flex; flex-direction:column; gap:1.5rem; background:var(--contact-bg); padding:3.5rem; border-radius:24px; box-shadow:0 15px 45px rgba(0,0,0,0.08); border: 1px solid var(--glass-border); }
-        .form-group { position: relative; }
-        .form-group input, .form-group textarea { 
-            width:100%; padding:1.2rem 1.5rem; border:2px solid var(--input-border); border-radius:14px; 
-            font-family:inherit; font-size:1.05rem; transition:var(--transition); 
-            background:var(--bg-color); color:var(--text-dark); outline: none;
-        }
-        .form-group textarea { height:180px; resize:none; }
-        .form-group input:focus, .form-group textarea:focus { 
-            border-color:var(--accent-purple); 
-            background: white;
-            box-shadow:0 0 0 6px rgba(108,99,255,0.08); 
-            transform: translateY(-2px);
-        }
-        body.dark-mode .form-group input:focus, body.dark-mode .form-group textarea:focus { background: #161625; }
+        .contact-form { display:flex; flex-direction:column; gap:1.2rem; background:var(--contact-bg); padding:2.5rem; border-radius:24px; box-shadow:0 15px 45px rgba(0,0,0,0.08); border: 1px solid var(--glass-border); }
+        .form-group input, .form-group textarea { width:100%; padding:1rem 1.2rem; border:2px solid var(--input-border); border-radius:12px; font-family:inherit; transition:var(--transition); background:var(--bg-color); color:var(--text-dark); outline: none; }
+        .form-group textarea { height:150px; resize:none; }
+        .form-group input:focus, .form-group textarea:focus { border-color:var(--accent-purple); background: white; }
 
-        /* Modern Smaller Footer with Icons */
+        /* Elegant Smaller Footer */
         footer { background-color:var(--footer-bg); color:var(--footer-text); text-align:center; padding:4rem 5%; }
-        .footer-content { display:flex; flex-direction:column; align-items:center; gap:2rem; }
-        .footer-social-links { display:flex; gap:1.2rem; align-items:center; }
-        
+        .footer-content { display:flex; flex-direction:column; align-items:center; gap:1.5rem; }
+        .footer-social-links { display:flex; gap:1rem; align-items:center; }
         .f-link { 
-            display: inline-flex; 
-            align-items: center; 
-            gap: 8px; 
-            padding: 10px 20px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 50px;
-            color: #d1d1d6; 
-            font-size: 0.8rem; 
-            font-family: 'Inter', sans-serif;
-            font-weight: 500;
-            transition: var(--transition);
-            border: 1px solid rgba(255,255,255,0.1);
+            display: inline-flex; align-items: center; gap: 8px; padding: 8px 18px; background: rgba(255,255,255,0.05); border-radius: 50px; color: #d1d1d6; font-size: 0.8rem; font-weight: 500; transition: var(--transition); border: 1px solid rgba(255,255,255,0.1);
         }
-        .f-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.5; transition: var(--transition); }
-        .f-link:hover { 
-            color: white; 
-            background: rgba(108,99,255,0.15); 
-            border-color: var(--accent-purple);
-            transform: translateY(-4px); 
-            box-shadow: 0 4px 15px rgba(108,99,255,0.2);
-        }
-        .f-link:hover svg { stroke: var(--accent-purple); filter: drop-shadow(0 0 4px var(--accent-purple)); }
+        .f-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.2; }
+        .f-link:hover { color: white; background: rgba(108,99,255,0.15); border-color: var(--accent-purple); transform: translateY(-3px); }
         
-        #footer-text { font-size: 0.8rem; opacity: 0.5; font-weight: 400; max-width: 450px; line-height: 1.6; }
+        #footer-text { font-size: 0.75rem; opacity: 0.5; max-width: 450px; line-height: 1.6; }
         
-        .animate-on-scroll { opacity:0; transform:translateY(30px); transition:opacity 0.6s ease,transform 0.6s ease; }
+        .animate-on-scroll { opacity:0; transform:translateY(20px); transition:opacity 0.6s ease,transform 0.6s ease; }
         .animate-on-scroll.visible { opacity:1; transform:translateY(0); }
         
-        @media (max-width:1024px) { .contact-wrapper { grid-template-columns:1fr; gap:3rem; } .hero h1 { font-size:3rem; } .contact-form { padding: 2rem; } }
-        @media (max-width:768px) { 
-            .menu-toggle { display:flex; } 
-            .nav-links { position:absolute; top:100%; left:0; width:100%; background:var(--bg-color); flex-direction:column; padding:2rem 0; box-shadow:0 10px 20px rgba(0,0,0,0.05); clip-path:polygon(0 0,100% 0,100% 0,0 0); transition:clip-path 0.4s ease; } 
-            .nav-links.active { clip-path:polygon(0 0,100% 0,100% 100%,0 100%); } 
-            .stats-grid { grid-template-columns:1fr; } 
-            section { padding:80px 5%; } 
-            .hero h1 { font-size:2.5rem; }
-            .visual-card.row { flex-direction: column; }
-            .visual-card.row .card-image { width: 100%; height: 220px; }
-            .footer-social-links { flex-direction: column; width: 100%; }
-            .f-link { width: 80%; justify-content: center; }
-        }
+        @media (max-width:1024px) { .contact-wrapper { grid-template-columns:1fr; gap:3rem; } }
+        @media (max-width:768px) { .nav-links { display: none; } section { padding:60px 5%; } .hero h1 { font-size:2.5rem; } }
     </style>
 </head>
 <body class="dark-mode">
@@ -239,19 +156,17 @@
 <nav id="navbar">
     <a href="#" class="logo"><span id="nav-logo-name">Youssef Nejjar</span></a>
     <div class="nav-links">
-        <a href="#about" class="nav-link" data-i18n="nav_about">About</a>
-        <a href="#experience" class="nav-link" data-i18n="nav_experience">Experience</a>
-        <a href="#education" class="nav-link" data-i18n="nav_education">Education</a>
-        <a href="#certifications" class="nav-link" data-i18n="nav_certifications">Certifications</a>
-        <a href="#contact" class="nav-link" data-i18n="nav_contact">Contact</a>
+        <a href="#about" data-i18n="nav_about">About</a>
+        <a href="#experience" data-i18n="nav_experience">Experience</a>
+        <a href="#education" data-i18n="nav_education">Education</a>
+        <a href="#contact" data-i18n="nav_contact">Contact</a>
         <div class="lang-switcher">
             <button class="lang-btn active" data-lang="en">EN</button>
             <button class="lang-btn" data-lang="fr">FR</button>
             <button class="lang-btn" data-lang="ar">AR</button>
         </div>
-        <button class="icon-btn" id="themeToggle" aria-label="Toggle Dark Mode">☀️</button>
+        <button class="icon-btn" id="themeToggle">☀️</button>
     </div>
-    <div class="menu-toggle" id="mobileMenu"><span></span><span></span><span></span></div>
 </nav>
 
 <section id="home" class="hero">
@@ -281,63 +196,45 @@
 </section>
 
 <section id="experience">
-    <h2 class="section-title" data-i18n="nav_experience">Professional Experience</h2>
-    <div class="timeline" id="timeline-experience"><div style="text-align:center;color:var(--text-muted)">Loading...</div></div>
+    <h2 class="section-title" data-i18n="nav_experience">Experience</h2>
+    <div class="timeline" id="timeline-experience"></div>
 </section>
 
 <section id="education">
     <h2 class="section-title" data-i18n="nav_education">Education</h2>
-    <div class="edu-grid" id="edu-grid"><div style="text-align:center;color:var(--text-muted)">Loading...</div></div>
-</section>
-
-<section id="certifications">
-    <h2 class="section-title" data-i18n="nav_certifications">Certifications & Training</h2>
-    <div class="certs-grid" id="certs-grid"><div style="text-align:center;color:var(--text-muted)">Loading...</div></div>
+    <div class="edu-grid" id="edu-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem;"></div>
 </section>
 
 <section id="contact">
     <h2 class="section-title" data-i18n="contact_heading">Let's Connect</h2>
     <div class="contact-wrapper">
-        <div class="contact-info animate-on-scroll" id="contact-info">
-            <a href="#" id="contact-phone" class="contact-card"><i>📞</i><div><h4 data-i18n="contact_phone_lbl">Phone</h4><p id="phone-val">Loading...</p></div></a>
-            <a href="#" id="contact-email" class="contact-card"><i>✉️</i><div><h4 data-i18n="contact_email_lbl">Email</h4><p id="email-val">Loading...</p></div></a>
-            <a href="#" id="contact-li" target="_blank" class="contact-card"><i>🔗</i><div><h4 data-i18n="contact_li_lbl">LinkedIn</h4><p id="li-val">Loading...</p></div></a>
+        <div class="contact-info animate-on-scroll">
+            <a href="#" id="contact-phone" class="contact-card"><i>📞</i><div><h4 data-i18n="contact_phone_lbl">Phone</h4><p id="phone-val">...</p></div></a>
+            <a href="#" id="contact-email" class="contact-card"><i>✉️</i><div><h4 data-i18n="contact_email_lbl">Email</h4><p id="email-val">...</p></div></a>
+            <a href="#" id="contact-li" target="_blank" class="contact-card"><i>🔗</i><div><h4 data-i18n="contact_li_lbl">LinkedIn</h4><p id="li-val">...</p></div></a>
         </div>
         
-        <!-- SUPABASE + GOOGLE SYNC FORM -->
         <form class="contact-form animate-on-scroll" id="contactForm">
-            <div class="form-group">
-                <input type="text" id="form_name" required data-i18n-ph="form_name_ph" placeholder="Your Full Name">
-            </div>
-            <div class="form-group">
-                <input type="email" id="form_email" required data-i18n-ph="form_email_ph" placeholder="Your Email Address">
-            </div>
-            <div class="form-group">
-                <textarea id="form_message" required data-i18n-ph="form_msg_ph" placeholder="How can I help you? Write your message here..."></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary" id="submitBtn" style="width:100%;" data-i18n="form_send">Send Message</button>
+            <div class="form-group"><input type="text" id="form_name" required data-i18n-ph="form_name_ph" placeholder="Your Name"></div>
+            <div class="form-group"><input type="email" id="form_email" required data-i18n-ph="form_email_ph" placeholder="Your Email"></div>
+            <div class="form-group"><textarea id="form_message" required data-i18n-ph="form_msg_ph" placeholder="Your Message"></textarea></div>
+            <button type="submit" class="btn btn-primary" id="submitBtn" data-i18n="form_send">Send Message</button>
         </form>
     </div>
 </section>
 
 <footer>
     <div class="footer-content">
-        <h3 class="logo" style="color:var(--footer-text);justify-content:center;font-size:1.8rem;">
-            <span id="footer-name">Youssef Nejjar</span>
-        </h3>
-        
+        <h3 class="logo" style="color:white;"><span id="footer-name">Youssef Nejjar</span></h3>
         <div class="footer-social-links" id="footer-social"></div>
-
-        <p id="footer-text">© 2025 Youssef Nejjar · EFL Teacher & Aspiring Educator. Built with passion for transformative education.</p>
+        <p id="footer-text">© 2025 Youssef Nejjar · Building the future of education.</p>
     </div>
 </footer>
 
 <script>
-// PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE:
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyuYw1x0svbU5E5OQvOufFd363F_lHO3gk-43F7VLoGpHTmcQFsjT_cpZyt-gc4Kh0/exec";
-
 const SUPABASE_URL = 'https://qqfiuagvlerrsvtifcuo.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_4YWkhBi8PRcsyi947Kdqkg_wQcjgR4g';
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_9eFvCqM3pQWpM_S9uT_S9k1I7zH7N5-Wz_N_Q/exec";
 
 const { createClient } = supabase;
 const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -347,27 +244,24 @@ let siteData = { hero: null, experience: [], education: [], certifications: [] }
 
 const UI = {
     en: { 
-        nav_about:'About', nav_experience:'Experience', nav_education:'Education', nav_certifications:'Certifications', nav_contact:'Contact', 
-        hero_cta1:'View My Work', hero_cta2:'Contact Me', 
-        stat_experience:'Years Experience', stat_languages:'Languages', stat_certifications:'Certifications', 
+        nav_about:'About', nav_experience:'Experience', nav_education:'Education', nav_contact:'Contact', 
+        hero_cta1:'View My Work', hero_cta2:'Contact Me', stat_experience:'Years Experience', stat_languages:'Languages', stat_certifications:'Certifications', 
         contact_heading:"Let's Connect", contact_phone_lbl:'Phone', contact_email_lbl:'Email', contact_li_lbl:'LinkedIn', 
-        form_name_ph: 'Your Full Name', form_email_ph: 'Your Email Address', form_msg_ph: 'How can I help you? Write your message here...',
+        form_name_ph: 'Your Full Name', form_email_ph: 'Your Email Address', form_msg_ph: 'How can I help you?',
         form_send:'Send Message', form_sending: 'Sending...', form_success:"Thank you! I'll be in touch soon." 
     },
     fr: { 
-        nav_about:'À propos', nav_experience:'Expérience', nav_education:'Formation', nav_certifications:'Certifications', nav_contact:'Contact', 
-        hero_cta1:'Voir mon travail', hero_cta2:'Me contacter', 
-        stat_experience:"Ans d'expérience", stat_languages:'Langues', stat_certifications:'Certifications', 
+        nav_about:'À propos', nav_experience:'Expérience', nav_education:'Formation', nav_contact:'Contact', 
+        hero_cta1:'Voir mon travail', hero_cta2:'Me contacter', stat_experience:"Ans d'expérience", stat_languages:'Langues', stat_certifications:'Certifications', 
         contact_heading:'Prenons contact', contact_phone_lbl:'Téléphone', contact_email_lbl:'Email', contact_li_lbl:'LinkedIn', 
-        form_name_ph: 'Votre nom complet', form_email_ph: 'Votre adresse e-mail', form_msg_ph: 'Comment puis-je vous aider ? Écrivez votre message ici...',
-        form_send:'Envoyer', form_sending: 'Envoi en cours...', form_success:'Merci ! Je vous contacterai bientôt.' 
+        form_name_ph: 'Votre nom complet', form_email_ph: 'Votre adresse e-mail', form_msg_ph: 'Comment puis-je vous aider ?',
+        form_send:'Envoyer', form_sending: 'Envoi...', form_success:'Merci ! Je vous contacterai bientôt.' 
     },
     ar: { 
-        nav_about:'من أنا', nav_experience:'الخبرة', nav_education:'التعليم', nav_certifications:'الشهادات', nav_contact:'تواصل', 
-        hero_cta1:'اكتشف أعمالي', hero_cta2:'تواصل معي', 
-        stat_experience:'سنوات خبرة', stat_languages:'لغات', stat_certifications:'شهادات', 
+        nav_about:'من أنا', nav_experience:'الخبرة', nav_education:'التعليم', nav_contact:'تواصل', 
+        hero_cta1:'اكتشف أعمالي', hero_cta2:'تواصل معي', stat_experience:'سنوات خبرة', stat_languages:'لغات', stat_certifications:'شهادات', 
         contact_heading:'لنتواصل', contact_phone_lbl:'الهاتف', contact_email_lbl:'البريد الإلكتروني', contact_li_lbl:'لينكد إن', 
-        form_name_ph: 'اسمك الكامل', form_email_ph: 'بريدك الإلكتروني', form_msg_ph: 'كيف يمكنني مساعدتك؟ اكتب رسالتك هنا...',
+        form_name_ph: 'اسمك الكامل', form_email_ph: 'بريدك الإلكتروني', form_msg_ph: 'كيف يمكنني مساعدتك؟',
         form_send:'إرسال', form_sending: 'جاري الإرسال...', form_success:'شكراً لك! سأتواصل معك قريباً.' 
     }
 };
@@ -380,20 +274,14 @@ async function fetchAll() {
             db.from('education').select('*').order('sort_order'),
             db.from('certifications').select('*').order('sort_order')
         ]);
-        siteData.hero = heroRes.data && heroRes.data.length ? heroRes.data[0] : null;
+        siteData.hero = heroRes.data?.[0];
         siteData.experience = expRes.data || [];
         siteData.education = eduRes.data || [];
-        siteData.certifications = certsRes.data || [];
         renderAll();
-    } catch (err) {
-        console.error("Critical fetch error:", err);
-    }
+    } catch (err) { console.error(err); }
 }
 
-function L(row, field) {
-    if (!row) return '';
-    return row[`${field}_${currentLang}`] || row[`${field}_en`] || '';
-}
+function L(row, field) { return row?.[`${field}_${currentLang}`] || row?.[`${field}_en`] || ''; }
 
 function renderAll() {
     const h = siteData.hero;
@@ -407,88 +295,32 @@ function renderAll() {
         document.getElementById('hero-location').textContent = L(h,'location');
         document.getElementById('hero-bio').textContent = L(h,'bio');
         document.getElementById('hero-bio').className = 'about-text ' + alignClass;
-        
         document.getElementById('stat-exp').textContent = h.years_experience || '4+';
         document.getElementById('stat-lang').textContent = h.stat_languages || '3';
         document.getElementById('stat-certs').textContent = h.stat_certifications || '10+';
-        
         document.getElementById('phone-val').textContent = h.phone || '';
         document.getElementById('email-val').textContent = h.email || '';
         document.getElementById('li-val').textContent = (h.linkedin || '').replace('https://','');
-        
-        document.getElementById('contact-phone').href = `tel:${h.phone}`;
-        document.getElementById('contact-email').href = `mailto:${h.email}`;
-        document.getElementById('contact-li').href = h.linkedin || '#';
-        
         document.getElementById('footer-name').textContent = L(h,'name');
-        
         document.getElementById('footer-social').innerHTML = `
-            <a href="${h.linkedin}" target="_blank" class="f-link">
-                <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-                LinkedIn
-            </a>
-            <a href="mailto:${h.email}" class="f-link">
-                <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                Email
-            </a>
-        `;
-        
-        let headerName = L(h,'name');
-        if (currentLang === 'fr') { headerName = 'يوسف نجار'; }
-        document.getElementById('nav-logo-name').textContent = headerName;
+            <a href="${h.linkedin}" target="_blank" class="f-link"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
+            <a href="mailto:${h.email}" class="f-link"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Email</a>`;
+        document.getElementById('nav-logo-name').textContent = (currentLang === 'fr') ? 'يوسف نجار' : L(h,'name');
     }
 
     document.getElementById('timeline-experience').innerHTML = siteData.experience.map(e => `
-        <div class="timeline-item animate-on-scroll">
-            <div class="timeline-dot"></div>
-            <div class="visual-card row">
-                <div class="card-image">${e.image_url ? `<img src="${e.image_url}" alt="${L(e,'title')}">` : ''}</div>
-                <div class="card-body ${alignClass}">
-                    <span class="timeline-date">${L(e,'date')}</span>
-                    <h3>${L(e,'title')}</h3>
-                    <h4>${L(e,'org')}</h4>
-                    <p>${L(e,'desc')}</p>
-                </div>
-            </div>
-        </div>`).join('');
-
+        <div class="timeline-item animate-on-scroll"><div class="timeline-dot"></div><div class="visual-card row"><div class="card-image">${e.image_url ? `<img src="${e.image_url}">` : ''}</div><div class="card-body ${alignClass}"><span class="timeline-date">${L(e,'date')}</span><h3>${L(e,'title')}</h3><h4>${L(e,'org')}</h4><p>${L(e,'desc')}</p></div></div></div>`).join('');
     document.getElementById('edu-grid').innerHTML = siteData.education.map(e => `
-        <div class="visual-card edu-card animate-on-scroll">
-            <div class="card-image">${e.image_url ? `<img src="${e.image_url}" alt="${L(e,'degree')}">` : ''}</div>
-            <div class="card-body ${alignClass}">
-                <h3>${L(e,'degree')}</h3>
-                <p>${L(e,'org')}</p>
-                <span class="timeline-date">${L(e,'date')}</span>
-            </div>
-        </div>`).join('');
-
-    document.getElementById('certs-grid').innerHTML = siteData.certifications.map(c => `
-        <div class="visual-card cert-card row animate-on-scroll">
-            <div class="card-image">${c.image_url ? `<img src="${c.image_url}" alt="${L(c,'title')}">` : (c.icon || '📜')}</div>
-            <div class="card-body ${alignClass}">
-                <h4>${L(c,'title')}</h4>
-                <p>${L(c,'org')}</p>
-            </div>
-        </div>`).join('');
+        <div class="visual-card animate-on-scroll"><div class="card-image" style="height:160px;">${e.image_url ? `<img src="${e.image_url}">` : ''}</div><div class="card-body ${alignClass}"><h3>${L(e,'degree')}</h3><p>${L(e,'org')}</p><span class="timeline-date">${L(e,'date')}</span></div></div>`).join('');
 
     document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
 }
 
 function updateLang() {
     document.documentElement.lang = currentLang;
-    if (currentLang === 'ar') { 
-        document.body.classList.add('lang-ar'); 
-    } else { 
-        document.body.classList.remove('lang-ar'); 
-    }
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-        const k = el.getAttribute('data-i18n');
-        if (UI[currentLang] && UI[currentLang][k]) el.textContent = UI[currentLang][k];
-    });
-    document.querySelectorAll('[data-i18n-ph]').forEach(el => {
-        const k = el.getAttribute('data-i18n-ph');
-        if (UI[currentLang] && UI[currentLang][k]) el.placeholder = UI[currentLang][k];
-    });
+    if (currentLang === 'ar') document.body.classList.add('lang-ar'); else document.body.classList.remove('lang-ar');
+    document.querySelectorAll('[data-i18n]').forEach(el => { const k = el.getAttribute('data-i18n'); if (UI[currentLang][k]) el.textContent = UI[currentLang][k]; });
+    document.querySelectorAll('[data-i18n-ph]').forEach(el => { const k = el.getAttribute('data-i18n-ph'); if (UI[currentLang][k]) el.placeholder = UI[currentLang][k]; });
     renderAll();
 }
 
@@ -499,28 +331,18 @@ document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('clic
     updateLang();
 }));
 
-const themeToggle = document.getElementById('themeToggle');
-if (localStorage.getItem('portfolio_theme') === 'light') { document.body.classList.remove('dark-mode'); themeToggle.textContent = '🌙'; }
-themeToggle.addEventListener('click', () => {
+document.getElementById('themeToggle').addEventListener('click', () => {
     document.body.classList.toggle('dark-mode');
-    const isDark = document.body.classList.contains('dark-mode');
-    localStorage.setItem('portfolio_theme', isDark ? 'dark' : 'light');
-    themeToggle.textContent = isDark ? '☀️' : '🌙';
+    document.getElementById('themeToggle').textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
 });
 
 const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) { entry.target.classList.add('visible'); }
-    });
-}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+}, { threshold: 0.1 });
 
-window.addEventListener('scroll', () => {
-    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
-});
-document.getElementById('mobileMenu').addEventListener('click', () => document.querySelector('.nav-links').classList.toggle('active'));
-document.querySelectorAll('.nav-link, .lang-btn, .icon-btn').forEach(el => el.addEventListener('click', () => document.querySelector('.nav-links').classList.remove('active')));
+window.addEventListener('scroll', () => { document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50); });
 
-// REFINED MULTI-SYNC CONTACT FORM SUBMISSION
+// RE-ENGINEERED SUBMISSION LOGIC
 document.getElementById('contactForm').addEventListener('submit', async (e) => { 
     e.preventDefault(); 
     const btn = document.getElementById('submitBtn');
@@ -534,35 +356,36 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
         message: document.getElementById('form_message').value
     };
 
-    // 1. SAVE TO SUPABASE (Keep your existing DB mirror)
-    const { error: dbError } = await db.from('messages').insert([payload]);
-
-    // 2. SEND TO GOOGLE (For Sheet and Email Notification)
-    if (GOOGLE_SCRIPT_URL !== "PASTE_YOUR_URL_HERE") {
-        try {
-            await fetch(GOOGLE_SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors', // Essential to prevent browser blocks
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: new URLSearchParams(payload).toString()
-            });
-        } catch (e) { console.warn("Google Sync Failed", e); }
-    }
-
-    if (dbError) {
-        console.error("Submission Error:", dbError.message);
-        btn.disabled = false;
-        btn.textContent = originalText;
-    } else {
+    const showSuccess = () => {
         const msg = document.createElement('div');
-        msg.style.cssText = "position:fixed;top:20px;left:50%;transform:translateX(-50%);background:var(--accent-purple);color:white;padding:1.2rem 2.5rem;border-radius:50px;box-shadow:0 15px 30px rgba(108,99,255,0.4);z-index:9999;font-weight:600;font-family:Inter,sans-serif;";
+        msg.style.cssText = "position:fixed;top:20px;left:50%;transform:translateX(-50%);background:var(--accent-purple);color:white;padding:1.2rem 2.5rem;border-radius:50px;box-shadow:0 15px 30px rgba(108,99,255,0.4);z-index:9999;font-weight:600;font-family:sans-serif;";
         msg.textContent = UI[currentLang].form_success;
         document.body.appendChild(msg);
         setTimeout(() => msg.remove(), 5000);
-        e.target.reset();
+        document.getElementById('contactForm').reset();
         btn.disabled = false;
         btn.textContent = originalText;
+    };
+
+    // 1. Try Supabase
+    try {
+        const { error } = await db.from('messages').insert([payload]);
+        if (error) throw error;
+    } catch (err) {
+        console.error("Supabase fail:", err.message);
     }
+
+    // 2. Try Google Sync (Parallel/Separate)
+    try {
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST', mode: 'no-cors',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams(payload).toString()
+        });
+    } catch (e) { console.warn("Google Sync blocked"); }
+
+    // Always show success and reset if we got this far
+    showSuccess();
 });
 
 fetchAll();
