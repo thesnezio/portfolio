@@ -16,6 +16,7 @@
             --nav-scrolled: rgba(255,255,255,0.9); --contact-bg: white; --input-border: #e5e7eb;
             --progress-bg: #e5e7eb; --footer-bg: #2d2d2d; --footer-text: #ffffff;
             --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --danger: #e24b4a;
         }
         body.dark-mode {
             --bg-color: #090a0f; --accent-purple: #b05cff; --accent-lavender: rgba(176,92,255,0.15);
@@ -69,6 +70,8 @@
         .blob-1 { width:400px; height:400px; background:var(--accent-lavender); top:10%; left:10%; }
         .blob-2 { width:300px; height:300px; background:#d8b4fe; bottom:20%; right:15%; }
         
+        /* Forced Centering for Hero on Mobile */
+        .hero-content { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; }
         .profile-img { 
             display: block;
             margin: 0 auto;
@@ -76,23 +79,16 @@
             border:4px solid var(--bg-color); box-shadow:0 0 0 4px var(--accent-purple),0 10px 25px rgba(0,0,0,0.1); 
             transition: var(--transition);
         }
-        .hero h1 { font-size:3.5rem; line-height:1.2; margin-top: 10px; }
-        .hero h2 { font-size:1.5rem; color:var(--text-muted); font-weight:500; }
+        .profile-img:hover { transform: scale(1.05); filter: brightness(1.1); box-shadow: 0 0 30px var(--accent-purple), 0 10px 35px rgba(0,0,0,0.2); }
+        .hero h1 { font-size:3.5rem; line-height:1.2; margin-top: 10px; width: 100%; text-align: center; }
+        .hero h2 { font-size:1.5rem; color:var(--text-muted); font-weight:500; width: 100%; text-align: center; }
         
         .location-tag { 
-            display:inline-flex; 
-            align-items:center; 
-            gap:5px; 
-            background:var(--accent-lavender); 
-            color:var(--accent-purple); 
-            padding:5px 15px; 
-            border-radius:20px; 
-            font-weight:500; 
-            font-size:0.9rem;
-            margin-top: 35px; 
+            display:inline-flex; align-items:center; gap:5px; background:var(--accent-lavender); color:var(--accent-purple); 
+            padding:5px 15px; border-radius:20px; font-weight:500; font-size:0.9rem; margin-top: 35px; 
         }
         
-        .hero-buttons { display:flex; gap:1rem; margin-top:1rem; justify-content: center; }
+        .hero-buttons { display:flex; gap:1rem; margin-top:1rem; justify-content: center; flex-wrap: wrap; }
         
         .btn { padding:1rem 2.5rem; border-radius:50px; font-weight:600; cursor:pointer; transition:var(--transition); display:inline-block; border:none; text-align:center; }
         .btn-primary { background:var(--accent-purple); color:white; border:2px solid var(--accent-purple); box-shadow: 0 4px 15px rgba(108,99,255,0.3); }
@@ -104,19 +100,34 @@
         .stats-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-top: 2rem; }
         .stat-card { text-align:center; padding:1.5rem; }
 
-        .visual-card { display: flex; flex-direction: column; background: var(--glass-bg); border-radius: 16px; overflow: hidden; }
+        /* Premium Visual Card Effects and Brighness Hover */
+        .visual-card { display: flex; flex-direction: column; background: var(--glass-bg); border-radius: 16px; overflow: hidden; transition: var(--transition); border: 1px solid var(--glass-border); }
+        .visual-card:hover { transform: translateY(-5px); box-shadow: var(--card-shadow); border-color: var(--accent-purple); }
+        
         @media (min-width: 768px) {
             .visual-card.row { flex-direction: row; }
             .visual-card.row .card-image { width: 180px; flex-shrink: 0; }
+            .visual-card.cert-card.row .card-image { width: 100px; }
         }
-        .card-image { position: relative; overflow: hidden; background-color: var(--accent-lavender); }
+        
+        .card-image { position: relative; overflow: hidden; background-color: var(--accent-lavender); display: flex; align-items: center; justify-content: center; min-height: 120px; }
         .card-image img { width: 100%; height: 100%; object-fit: cover; transition: var(--transition); }
+        
+        /* Brightness Hover Logic */
+        .visual-card:hover .card-image img {
+            filter: brightness(1.2) contrast(1.1);
+            transform: scale(1.1);
+        }
+
         .card-body { padding: 2rem; flex: 1; text-align: left; }
         body.lang-ar .card-body { text-align: right; }
 
         .timeline { position:relative; padding-left:30px; margin-left:20px; border-left: 2px solid var(--accent-lavender); }
         .timeline-item { position:relative; margin-bottom:3rem; }
-        .timeline-dot { position:absolute; left:-41px; top:15px; width:20px; height:20px; border-radius:50%; background:var(--accent-purple); border:4px solid var(--bg-color); z-index: 2; }
+        .timeline-dot { position:absolute; left:-41px; top:15px; width:20px; height:20px; border-radius:50%; background:var(--accent-purple); border:4px solid var(--bg-color); z-index: 2; transition: var(--transition); }
+        .timeline-item:hover .timeline-dot { transform: scale(1.2); box-shadow: 0 0 15px var(--accent-purple); }
+
+        .edu-grid, .certs-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:2rem; }
         
         /* Contact Form */
         #contact { background: linear-gradient(135deg, var(--accent-lavender) 0%, #ffffff 100%); border-radius:40px; margin-bottom:2rem; padding: 80px 5%; }
@@ -130,9 +141,9 @@
         .contact-form { display:flex; flex-direction:column; gap:1.2rem; background:var(--contact-bg); padding:2.5rem; border-radius:24px; box-shadow:0 15px 45px rgba(0,0,0,0.08); border: 1px solid var(--glass-border); }
         .form-group input, .form-group textarea { width:100%; padding:1rem 1.2rem; border:2px solid var(--input-border); border-radius:12px; font-family:inherit; transition:var(--transition); background:var(--bg-color); color:var(--text-dark); outline: none; }
         .form-group textarea { height:150px; resize:none; }
-        .form-group input:focus, .form-group textarea:focus { border-color:var(--accent-purple); background: white; }
+        .form-group input:focus, .form-group textarea:focus { border-color:var(--accent-purple); }
 
-        /* Elegant Smaller Footer */
+        /* Footer */
         footer { background-color:var(--footer-bg); color:var(--footer-text); text-align:center; padding:4rem 5%; }
         .footer-content { display:flex; flex-direction:column; align-items:center; gap:1.5rem; }
         .footer-social-links { display:flex; gap:1rem; align-items:center; }
@@ -148,7 +159,14 @@
         .animate-on-scroll.visible { opacity:1; transform:translateY(0); }
         
         @media (max-width:1024px) { .contact-wrapper { grid-template-columns:1fr; gap:3rem; } }
-        @media (max-width:768px) { .nav-links { display: none; } section { padding:60px 5%; } .hero h1 { font-size:2.5rem; } }
+        @media (max-width:768px) { 
+            section { padding:60px 5%; } 
+            .hero h1 { font-size:2.2rem; } 
+            .hero { padding-top: 100px; min-height: auto; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .section-title { font-size: 1.8rem; }
+        }
     </style>
 </head>
 <body class="dark-mode">
@@ -159,6 +177,7 @@
         <a href="#about" data-i18n="nav_about">About</a>
         <a href="#experience" data-i18n="nav_experience">Experience</a>
         <a href="#education" data-i18n="nav_education">Education</a>
+        <a href="#certifications" data-i18n="nav_certifications">Certifications</a>
         <a href="#contact" data-i18n="nav_contact">Contact</a>
         <div class="lang-switcher">
             <button class="lang-btn active" data-lang="en">EN</button>
@@ -202,7 +221,12 @@
 
 <section id="education">
     <h2 class="section-title" data-i18n="nav_education">Education</h2>
-    <div class="edu-grid" id="edu-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem;"></div>
+    <div class="edu-grid" id="edu-grid"></div>
+</section>
+
+<section id="certifications">
+    <h2 class="section-title" data-i18n="nav_certifications">Certifications</h2>
+    <div class="certs-grid" id="certs-grid"></div>
 </section>
 
 <section id="contact">
@@ -227,7 +251,7 @@
     <div class="footer-content">
         <h3 class="logo" style="color:white;"><span id="footer-name">Youssef Nejjar</span></h3>
         <div class="footer-social-links" id="footer-social"></div>
-        <p id="footer-text">© 2025 Youssef Nejjar · Building the future of education.</p>
+        <p id="footer-text">© 2025 Youssef Nejjar · EFL Teacher & Educator</p>
     </div>
 </footer>
 
@@ -244,21 +268,21 @@ let siteData = { hero: null, experience: [], education: [], certifications: [] }
 
 const UI = {
     en: { 
-        nav_about:'About', nav_experience:'Experience', nav_education:'Education', nav_contact:'Contact', 
+        nav_about:'About', nav_experience:'Experience', nav_education:'Education', nav_certifications:'Certifications', nav_contact:'Contact', 
         hero_cta1:'View My Work', hero_cta2:'Contact Me', stat_experience:'Years Experience', stat_languages:'Languages', stat_certifications:'Certifications', 
         contact_heading:"Let's Connect", contact_phone_lbl:'Phone', contact_email_lbl:'Email', contact_li_lbl:'LinkedIn', 
         form_name_ph: 'Your Full Name', form_email_ph: 'Your Email Address', form_msg_ph: 'How can I help you?',
         form_send:'Send Message', form_sending: 'Sending...', form_success:"Thank you! I'll be in touch soon." 
     },
     fr: { 
-        nav_about:'À propos', nav_experience:'Expérience', nav_education:'Formation', nav_contact:'Contact', 
+        nav_about:'À propos', nav_experience:'Expérience', nav_education:'Formation', nav_certifications:'Certifications', nav_contact:'Contact', 
         hero_cta1:'Voir mon travail', hero_cta2:'Me contacter', stat_experience:"Ans d'expérience", stat_languages:'Langues', stat_certifications:'Certifications', 
         contact_heading:'Prenons contact', contact_phone_lbl:'Téléphone', contact_email_lbl:'Email', contact_li_lbl:'LinkedIn', 
         form_name_ph: 'Votre nom complet', form_email_ph: 'Votre adresse e-mail', form_msg_ph: 'Comment puis-je vous aider ?',
         form_send:'Envoyer', form_sending: 'Envoi...', form_success:'Merci ! Je vous contacterai bientôt.' 
     },
     ar: { 
-        nav_about:'من أنا', nav_experience:'الخبرة', nav_education:'التعليم', nav_contact:'تواصل', 
+        nav_about:'من أنا', nav_experience:'الخبرة', nav_education:'التعليم', nav_certifications:'الشهادات', nav_contact:'تواصل', 
         hero_cta1:'اكتشف أعمالي', hero_cta2:'تواصل معي', stat_experience:'سنوات خبرة', stat_languages:'لغات', stat_certifications:'شهادات', 
         contact_heading:'لنتواصل', contact_phone_lbl:'الهاتف', contact_email_lbl:'البريد الإلكتروني', contact_li_lbl:'لينكد إن', 
         form_name_ph: 'اسمك الكامل', form_email_ph: 'بريدك الإلكتروني', form_msg_ph: 'كيف يمكنني مساعدتك؟',
@@ -277,6 +301,7 @@ async function fetchAll() {
         siteData.hero = heroRes.data?.[0];
         siteData.experience = expRes.data || [];
         siteData.education = eduRes.data || [];
+        siteData.certifications = certsRes.data || [];
         renderAll();
     } catch (err) { console.error(err); }
 }
@@ -310,8 +335,15 @@ function renderAll() {
 
     document.getElementById('timeline-experience').innerHTML = siteData.experience.map(e => `
         <div class="timeline-item animate-on-scroll"><div class="timeline-dot"></div><div class="visual-card row"><div class="card-image">${e.image_url ? `<img src="${e.image_url}">` : ''}</div><div class="card-body ${alignClass}"><span class="timeline-date">${L(e,'date')}</span><h3>${L(e,'title')}</h3><h4>${L(e,'org')}</h4><p>${L(e,'desc')}</p></div></div></div>`).join('');
+    
     document.getElementById('edu-grid').innerHTML = siteData.education.map(e => `
         <div class="visual-card animate-on-scroll"><div class="card-image" style="height:160px;">${e.image_url ? `<img src="${e.image_url}">` : ''}</div><div class="card-body ${alignClass}"><h3>${L(e,'degree')}</h3><p>${L(e,'org')}</p><span class="timeline-date">${L(e,'date')}</span></div></div>`).join('');
+
+    document.getElementById('certs-grid').innerHTML = siteData.certifications.map(c => `
+        <div class="visual-card cert-card row animate-on-scroll">
+            <div class="card-image">${c.image_url ? `<img src="${c.image_url}">` : `<div style="font-size:2rem;">${c.icon || '📜'}</div>`}</div>
+            <div class="card-body ${alignClass}"><h3>${L(c,'title')}</h3><p>${L(c,'org')}</p></div>
+        </div>`).join('');
 
     document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
 }
@@ -342,7 +374,6 @@ const observer = new IntersectionObserver(entries => {
 
 window.addEventListener('scroll', () => { document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50); });
 
-// RE-ENGINEERED SUBMISSION LOGIC
 document.getElementById('contactForm').addEventListener('submit', async (e) => { 
     e.preventDefault(); 
     const btn = document.getElementById('submitBtn');
@@ -356,36 +387,34 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
         message: document.getElementById('form_message').value
     };
 
-    const showSuccess = () => {
+    const showNotification = (text, isError = false) => {
         const msg = document.createElement('div');
-        msg.style.cssText = "position:fixed;top:20px;left:50%;transform:translateX(-50%);background:var(--accent-purple);color:white;padding:1.2rem 2.5rem;border-radius:50px;box-shadow:0 15px 30px rgba(108,99,255,0.4);z-index:9999;font-weight:600;font-family:sans-serif;";
-        msg.textContent = UI[currentLang].form_success;
+        msg.style.cssText = `position:fixed;top:20px;left:50%;transform:translateX(-50%);background:${isError ? 'var(--danger)' : 'var(--accent-purple)'};color:white;padding:1.2rem 2.5rem;border-radius:50px;box-shadow:0 15px 30px rgba(0,0,0,0.15);z-index:9999;font-weight:600;font-family:sans-serif;`;
+        msg.textContent = text;
         document.body.appendChild(msg);
         setTimeout(() => msg.remove(), 5000);
-        document.getElementById('contactForm').reset();
-        btn.disabled = false;
-        btn.textContent = originalText;
     };
 
-    // 1. Try Supabase
     try {
         const { error } = await db.from('messages').insert([payload]);
         if (error) throw error;
+
+        if (GOOGLE_SCRIPT_URL.includes("http")) {
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST', mode: 'no-cors',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: new URLSearchParams(payload).toString()
+            }).catch(ge => console.warn("Google Sync blocked but Supabase succeeded."));
+        }
+
+        showNotification(UI[currentLang].form_success);
+        document.getElementById('contactForm').reset();
     } catch (err) {
-        console.error("Supabase fail:", err.message);
+        showNotification(`Error: ${err.message}`, true);
+    } finally {
+        btn.disabled = false;
+        btn.textContent = originalText;
     }
-
-    // 2. Try Google Sync (Parallel/Separate)
-    try {
-        fetch(GOOGLE_SCRIPT_URL, {
-            method: 'POST', mode: 'no-cors',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: new URLSearchParams(payload).toString()
-        });
-    } catch (e) { console.warn("Google Sync blocked"); }
-
-    // Always show success and reset if we got this far
-    showSuccess();
 });
 
 fetchAll();
